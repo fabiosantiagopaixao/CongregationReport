@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Congregation Report</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Configurações</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_user">Usuários</string>
+    <string name="menu_group">Grupos</string>
+    <string name="menu_publishers">Publicadores</string>
+    <string name="usuario">Usuário</string>
+    <string name="senha">Senha</string>
+    <string name="url_planilha">URL da Planilha</string>
+    <string name="login">Login</string>
+    <string name="conectar">Conectar</string>
+
+    <!-- Mensagens -->
+    <string name="msg_conectar_url_vazia">O campo url não pode estar vazio</string>
+    <string name="msg_conectar_erro">Erro ao baixar os dados!</string>
+    <string name="msg_login_usuario_vazio">O campo usuário é obrigatório</string>
+    <string name="msg_login_senha_vazia">O campo senha é obrigatório</string>
+    <string name="msg_login_invalido">Usuário ou senha inválido!</string>
+    <string name="title_activity_main">MainActivity</string>
+
+</resources>
