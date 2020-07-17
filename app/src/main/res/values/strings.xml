@@ -12,6 +12,7 @@
     <string name="menu_group">Grupos</string>
     <string name="menu_publishers">Publicadores</string>
     <string name="usuario">Usuário</string>
+    <string name="group">Grupo</string>
     <string name="senha">Senha</string>
     <string name="url_planilha">URL da Planilha</string>
     <string name="login">Login</string>
