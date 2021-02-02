@@ -62,7 +62,7 @@ public class AdapterItemGroup extends ArrayAdapter<Group> implements Filterable 
         // Verifica se está vazia a lista
         if (this.emptyTable) {
             TextView msgemptyTable = (TextView) view.findViewById(R.id.txtMsgEmpty);
-            msgemptyTable.setText("Nenhum resultado encontrado...");
+            msgemptyTable.setText(this.context.getResources().getString(R.string.nothing_found));
             return view;
         }
         // Pega os dados

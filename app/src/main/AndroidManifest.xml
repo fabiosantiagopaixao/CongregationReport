@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -13,11 +14,36 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="br.com.congregationreport.SplashScreenActivity"
+            android:name=".ui.publisher.PublisherActivity"
+            android:label="@string/screen_pusblishers"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.congregationreports.CongregationReportActivity"
+            android:label="@string/screen_reports"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.assistance.AddAssistanceActivity"
+            android:label="@string/screen_meeting_assistance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.assistance.AssistanceActivity"
+            android:label="@string/screen_meeting_assistances"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.report.AddReportActivity"
+            android:label="@string/screen_report"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.report.ReportActivity"
+            android:label="@string/screen_reports"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,15 +51,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="br.com.congregationreport.ConnectionActivity"
+            android:name=".ConnectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="br.com.congregationreport.LoginActivity"
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="br.com.congregationreport.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".service.NotificationService"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="br.com.congregationreport.service.NotificationService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

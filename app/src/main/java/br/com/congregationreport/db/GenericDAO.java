@@ -52,6 +52,11 @@ public class GenericDAO<E> {
         return cursor;
     }
 
+    public Cursor findFilterWhere(String select) {
+        Cursor cursor = db.rawQuery(select, null);
+        return cursor;
+    }
+
     private String getTableName() {
         String nome = type.getSimpleName().toLowerCase();
         if (nome.equals("group")) {

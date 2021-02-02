@@ -2,56 +2,32 @@ package br.com.congregationreport;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import br.com.congregationreport.db.dao.GroupDAO;
-import br.com.congregationreport.db.dao.LocalDAO;
-import br.com.congregationreport.db.dao.PublisherDAO;
-import br.com.congregationreport.db.dao.SettingDAO;
-import br.com.congregationreport.db.dao.UserDAO;
-import br.com.congregationreport.models.Group;
-import br.com.congregationreport.models.Local;
-import br.com.congregationreport.models.Publisher;
-import br.com.congregationreport.models.Setting;
-import br.com.congregationreport.models.User;
-import br.com.congregationreport.util.HttpRequestUtil;
-import br.com.congregationreport.util.UtilDataMemory;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import br.com.congregationreport.async.DownloadDataGoogleSheetTask;
+import br.com.congregationreport.task.TaskRunner;
+import br.com.congregationreport.util.Util;
+
 
 public class ConnectionActivity extends AppCompatActivity {
 
     private Button btnConectar;
     private EditText txtUrl;
-    private SettingDAO settingDAO;
-    private UserDAO userDAO;
-    private GroupDAO groupDAO;
-    private PublisherDAO publisherDAO;
-    private LocalDAO localDAO;
+    private TaskRunner runner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection);
-        this.initComponents();
+        this.init();
         this.initOnClickListener();
     }
 
-    private void initComponents() {
-        this.localDAO = new LocalDAO(this);
-        this.settingDAO = new SettingDAO(this);
-        this.userDAO = UtilDataMemory.getUserDAO(this);
-        this.groupDAO = UtilDataMemory.getGroupDAO(this);
-        this.publisherDAO = UtilDataMemory.getPublisherDAO(this);
+    private void init() {
+        this.runner = new TaskRunner();
         this.btnConectar = (Button) findViewById(R.id.btnConectar);
         this.txtUrl = (EditText) findViewById(R.id.txtUrl);
     }
@@ -60,191 +36,47 @@ public class ConnectionActivity extends AppCompatActivity {
         this.btnConectar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (txtUrl.getText().toString().isEmpty()) {
                     txtUrl.setError(getResources().getString(R.string.msg_conectar_url_vazia));
-                } else {
-                    new BaixarBancoDadosTask().execute(txtUrl.getText().toString());
+                    return;
                 }
-
+                if (Util.isDeviceOnline(ConnectionActivity.this)) {
+                    if (validatenUrl(txtUrl.getText().toString())) {
+                        runner.executeAsync(new DownloadDataGoogleSheetTask(
+                                ConnectionActivity.this,
+                                txtUrl.getText().toString())
+                        );
+                    }
+                } else {
+                    Util.createMessageAlert(
+                            ConnectionActivity.this,
+                            ConnectionActivity.this.getResources().getString(R.string.msg_no_internet)
+                    );
+                }
             }
         });
     }
 
-    // AsyncTask<P1, P2, P3>
-    // P1 = doInBackground parameter
-    // P2 = onProgressUpdate parameter
-    // P3 = onPostExecute parameter
-    private class BaixarBancoDadosTask extends AsyncTask<String, Void, Integer> {
-
-        private TextView txtMessage;
-        private RelativeLayout layoutLoading;
-        private String json;
-
-        protected void onPreExecute() {
-            this.layoutLoading = (RelativeLayout) ConnectionActivity.this.findViewById(
-                    R.id.layoutLoading);
-            this.txtMessage = (TextView) ConnectionActivity.this.findViewById(
-                    R.id.txtMessage);
-            this.txtMessage.setText("Conectando a base de dados...");
-            this.layoutLoading.setVisibility(View.VISIBLE);
-            super.onPreExecute();
-        }
-
-        protected Integer doInBackground(String... params) {
-            try {
-                String url = params[0];
-                HttpRequestUtil httpRequest = new HttpRequestUtil(
-                        ConnectionActivity.this,
-                        url,
-                        "GET",
-                        null,
-                        true,
-                        true
-                );
-                if (httpRequest.isSucess()) {
-                    this.json = httpRequest.getResult();
-
-                    this.createDataBase();
-
-                    // Salva os dados da url
-                    Local local = localDAO.save(new Local(txtUrl.getText().toString()));
-                    System.out.println("Dados slavos: " + local);
-                }
-                return httpRequest.getResultCode();
-            } catch (Exception e) {
-                return 401;
+    private boolean validatenUrl(String url) {
+        try {
+            if (!url.contains("https://script.google.com")) {
+                Util.createMessageAlert(this, this.getResources().getString(R.string.msg_url_invalid));
+                return false;
             }
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            layoutLoading.setVisibility(View.GONE);
-            if (result >= 200 && result < 300) {
-                // Chama a tela de login
-                Intent it = new Intent(ConnectionActivity.this, LoginActivity.class);
-                ConnectionActivity.this.startActivity(it);
-                this.cancel(true);
-
-                // Fecha a tela
-                ConnectionActivity.this.finish();
-            } else {
-                Toast.makeText(
-                        getBaseContext(), getResources().getString(R.string.msg_conectar_erro),
-                        Toast.LENGTH_LONG
-                ).show();
+            if (!url.contains("exec?spreadsheetId=")) {
+                Util.createMessageAlert(this, this.getResources().getString(R.string.msg_url_invalid));
+                return false;
             }
-            super.onPostExecute(result);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        private boolean createDataBase() {
-            try {
-
-                JSONArray jsonArray = new JSONObject(this.json).getJSONArray("data");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                    String sheet = jsonObject.getString("sheet");
-                    JSONArray jArrayDatos = jsonObject.getJSONArray("data");
-                    switch (sheet) {
-                        case "setting":
-                            this.addDataSetting(jArrayDatos);
-                            break;
-                        case "user":
-                            this.addDataUser(jArrayDatos);
-                            break;
-                        case "group":
-                            this.addDataGroup(jArrayDatos);
-                            break;
-                        case "publisher":
-                            this.addDataPublisher(jArrayDatos);
-                            break;
-                        default:
-                            break;
-                    }
-
-                }
-                // Settings
-                System.out.println(jsonArray);
-
-                return true;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return false;
-        }
-
-        private void addDataSetting(JSONArray jsonArray) {
-            try {
-                JSONObject data = (JSONObject) jsonArray.get(0);
-                Setting setting = Setting.convertJson(data);
-                Setting settingDB = settingDAO.getSetting(setting.getNameCongregation());
-                if (settingDB.getId() == null || settingDB.getId() == 0) {
-                    settingDAO.save(setting);
-                } else {
-                    settingDAO.update(Setting.getUpdateSetting(settingDB, setting));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void addDataUser(JSONArray jsonArray) {
-            try {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject data = (JSONObject) jsonArray.get(i);
-                    User user = User.convertJson(data);
-                    User userDB = userDAO.getUser(user.getUserName());
-                    if (userDB.getId() == null || userDB.getId() == 0) {
-                        userDAO.save(user);
-                    } else {
-                        userDAO.update(User.getUpdateUser(userDB, user));
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void addDataGroup(JSONArray jsonArray) {
-            try {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject data = (JSONObject) jsonArray.get(i);
-                    Group group = Group.convertJson(data);
-                    Group groupDB = groupDAO.findGroup(group.getName());
-                    if (groupDB.getId() == null || groupDB.getId() == 0) {
-                        groupDAO.save(group);
-                    } else {
-                        groupDAO.update(Group.getUpdateGroup(groupDB, group));
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void addDataPublisher(JSONArray jsonArray) {
-            try {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject data = (JSONObject) jsonArray.get(i);
-                    Publisher publisher = Publisher.convertJson(data);
-                    if (publisher.getEmail() != null) {
-                        Publisher publisherDB = publisherDAO.getPublisher(publisher.getEmail());
-                        if (publisherDB.getId() == null || publisherDB.getId() == 0) {
-                            publisherDAO.save(publisher);
-                        } else {
-                            publisherDAO.update(Publisher.getUpdatePublisher(publisherDB, publisher));
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
+        return true;
     }
 
     //Disables back button so user cannot skip accepting terms and conditions
     @Override
     public void onBackPressed() {
     }
+
 }

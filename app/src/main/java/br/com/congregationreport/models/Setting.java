@@ -9,11 +9,17 @@ public class Setting {
     private String nameCongregation;
     private String numberCongregation;
     public static String TABLE_NAME = "setting";
+    public static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( "
+            + "id integer primary key autoincrement,"
+            + " name_congregation text,"
+            + " number_congregation text"
+            + ");";
+    public static String DROP_TABLE= "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public Setting() {
     }
 
-    public static Setting convertJson(JSONObject jsonObject){
+    public static Setting convertJson(JSONObject jsonObject) {
         Setting setting = new Setting();
         try {
             setting.setNameCongregation(jsonObject.getString("name_congregation"));
@@ -24,7 +30,7 @@ public class Setting {
         return setting;
     }
 
-    public static Setting getUpdateSetting(Setting setting, Setting newDataSetting){
+    public static Setting getUpdate(Setting setting, Setting newDataSetting) {
         try {
             setting.setNameCongregation(newDataSetting.getNameCongregation());
             setting.setNumberCongregation(newDataSetting.getNumberCongregation());

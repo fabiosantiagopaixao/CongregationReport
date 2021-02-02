@@ -15,17 +15,12 @@ public class SettingDAO extends GenericDAO<Setting> {
         super(context, Setting.class);
     }
 
-    public Setting getSetting(String name) {
+    public Setting getSetting() {
         // Configuração
-        Setting setting = new Setting();
+        Setting setting = null;
 
         // Pega o cursor com os dados3
-        Map<String[], String> filtros = new HashMap<>();
-        String[] tipoColuna = new String[2];
-        tipoColuna[0] = "STRING";
-        tipoColuna[1] = "number_congregation";
-        filtros.put(tipoColuna, name);
-        Cursor cursor = findFilterByEq(filtros, "name_congregation ASC");
+        Cursor cursor = findLimit("1");
 
         // Pega o primeiro elemento
         cursor.moveToFirst();

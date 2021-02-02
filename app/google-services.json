@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "771350259277",
+    "project_id": "congregation-report",
+    "storage_bucket": "congregation-report.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771350259277:android:4177bf730332c4801dde04",
+        "android_client_info": {
+          "package_name": "br.com.congregationreport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771350259277-ol1fvc1deqvqtahtp3k0jvfmh77h46j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaFQJGUzSeIVdXbL7mNZnxu0A-WfK2sgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771350259277-ol1fvc1deqvqtahtp3k0jvfmh77h46j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

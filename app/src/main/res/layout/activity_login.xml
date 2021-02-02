@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.congregationreport.LoginActivity">
+    tools:context=".LoginActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:gravity="center_vertical"
-                android:hint="@string/senha"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 tools:layout_editor_absoluteX="63dp"
                 tools:layout_editor_absoluteY="218dp" />
@@ -61,6 +61,7 @@
                     android:text="@string/login" />
             </LinearLayout>
         </LinearLayout>
+        <include layout="@layout/alert_internet" />
     </RelativeLayout>
     <include layout="@layout/loading" />
 </RelativeLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.congregationreport.ConnectionActivity">
+    tools:context=".ConnectionActivity">
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -17,13 +17,15 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/imgLogo"
         android:paddingLeft="10dp"
+        android:layout_marginBottom="20dp"
         android:paddingRight="10dp">
 
         <EditText
             android:id="@+id/txtUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center_vertical"
             android:hint="@string/url_planilha"
             android:inputType="text"
@@ -32,6 +34,7 @@
             tools:layout_editor_absoluteY="218dp" />
 
         <LinearLayout
+            android:id="@+id/llButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtUrl"
@@ -45,6 +48,8 @@
                 android:text="@string/conectar" />
 
         </LinearLayout>
+        <include layout="@layout/alert_internet" />
     </RelativeLayout>
+
     <include layout="@layout/loading" />
 </RelativeLayout>

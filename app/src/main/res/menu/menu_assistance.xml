@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/itemAdd"
+        android:orderInCategory="4"
+        android:icon="@mipmap/ic_add"
+        android:title="@string/menu_item_add"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/itemS21"
+        android:orderInCategory="4"
+        android:icon="@drawable/ic_eye"
+        android:title="@string/menu_item_repor_s21"
+        app:showAsAction="ifRoom" />
+</menu>

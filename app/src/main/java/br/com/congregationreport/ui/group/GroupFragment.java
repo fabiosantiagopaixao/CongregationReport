@@ -35,7 +35,7 @@ public class GroupFragment extends Fragment {
     private void init() {
         try {
             this.groupDAO = UtilDataMemory.getGroupDAO(this.root.getContext());
-            this.lvGroups = this.root.findViewById(R.id.lvListaData);
+            this.lvGroups = this.root.findViewById(R.id.lvData);
             this.groups = this.groupDAO.findGroups();
             this.setData();
         } catch (Exception e) {

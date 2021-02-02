@@ -19,7 +19,7 @@ public class GroupDAO extends GenericDAO<Group> {
 
     public Group findGroup(String name) {
         // Grupo
-        Group group = new Group();
+        Group group = null;
 
         // Pega o cursor com os dados
         Map<String[], String> filtros = new HashMap<>();
@@ -96,7 +96,6 @@ public class GroupDAO extends GenericDAO<Group> {
     public ContentValues getValues(Group group) {
         ContentValues values = new ContentValues();
         values.put("name", group.getName());
-        values.put("sup_group", group.getSupGroup());
         return values;
     }
 
@@ -107,9 +106,6 @@ public class GroupDAO extends GenericDAO<Group> {
             Group.setId(cursor.getInt(cursor.getColumnIndex("id")));
             Group.setName(
                     cursor.getString(cursor.getColumnIndex("name"))
-            );
-            Group.setSupGroup(
-                    cursor.getString(cursor.getColumnIndex("sup_group"))
             );
         } catch (Exception e) {
             System.out.println("Erro ao ler os dados. Erro: " + e.getMessage());

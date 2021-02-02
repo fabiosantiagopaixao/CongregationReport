@@ -31,6 +31,7 @@ public class HttpRequestUtil {
     private int resultCode;
     private String resultMessage;
     private static String DELETE = "DELETE";
+    public static int NOT_FOUND = 404;
 
     /**
      * Connect request
@@ -41,7 +42,6 @@ public class HttpRequestUtil {
      * @param response
      * @param doInput
      * @param doOutput
-     * @param authorization
      */
     @SuppressLint("NewApi")
     public HttpRequestUtil(
@@ -76,12 +76,14 @@ public class HttpRequestUtil {
             if (this.mimeType != null) {
                 conn.setRequestProperty("Content-Type", this.mimeType);
             }
+            conn.setRequestProperty("charset", "utf-8");
+            conn.setUseCaches (false);
             if (this.type != DELETE) {
                 //conn.setDoOutput(this.doOutput);
                 //conn.setDoInput(this.doInput);
                 if (this.doOutput && (this.response != null && !this.response.isEmpty())) {
                     DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
-                    dataOutputStream.writeBytes(this.response);
+                    dataOutputStream.write(this.response.getBytes());
                     dataOutputStream.flush();
                     dataOutputStream.close();
                 }

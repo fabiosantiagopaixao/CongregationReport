@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/txtData"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:padding="5dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/label_s21_title"
+        android:textColor="@color/colorBlack"
+        android:textStyle="normal|bold" />
+
+    <LinearLayout
+        android:id="@+id/firstRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/label_name_s21"
+            android:textColor="@color/colorBlack"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="left"
+            android:text="Fábio Santiago da Paixão"
+            android:textColor="@color/colorGrayDark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstRow"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/label_date_s21"
+            android:textColor="@color/colorBlack"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtDateBirth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_horizontal"
+            android:text="04/01/1994"
+            android:textColor="@color/colorGrayDark" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/thirdRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/secondRow"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/label_batism_s21"
+            android:textColor="@color/colorBlack"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtBaptism"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_horizontal"
+            android:text="27/10/2010"
+            android:textColor="@color/colorGrayDark" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlBoxCheckers"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thirdRow">
+
+        <LinearLayout
+            android:id="@+id/fourthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/ckbMan"
+                android:layout_width="120dp"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:text="@string/man"
+                android:textStyle="normal|bold" />
+
+            <CheckBox
+                android:id="@+id/ckbElder"
+                android:layout_width="85dp"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:text="@string/elder"
+                android:textStyle="normal|bold" />
+
+            <CheckBox
+                android:id="@+id/ckbServant"
+                android:clickable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/servant"
+                android:textStyle="normal|bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fifthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fourthRow"
+            android:orientation="horizontal">
+
+
+            <CheckBox
+                android:id="@+id/ckbWoman"
+                android:layout_width="120dp"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:text="@string/woman"
+                android:textStyle="normal|bold" />
+
+            <CheckBox
+                android:id="@+id/ckbPioneer"
+                android:clickable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/regular_pioneer"
+                android:textStyle="normal|bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sixthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fifthRow"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/ckbOthers"
+                android:layout_width="120dp"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:text="@string/other_sheep"
+                android:textStyle="normal|bold" />
+
+            <CheckBox
+                android:id="@+id/ckbAnointed"
+                android:clickable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/anointed"
+                android:textStyle="normal|bold" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/rlDataS21"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlBoxCheckers"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:id="@+id/tableDataS21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <!-- Header -->
+                <TableRow
+                    android:background="@color/colorGrayAccent"
+                    android:padding="1dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtLabelYearService"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:text="@string/label_year_service_s21"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="normal|bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="1dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:text="@string/label_publications_service_s21"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="normal|bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="1dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:text="@string/label_videos_service_s21"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="normal|bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="1dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:text="@string/label_hour_service_s21"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="normal|bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="1dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:text="@string/label_revisited_service_s21"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="normal|bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="1dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:text="@string/label_courses_service_s21"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="normal|bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="1dp"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:text="@string/label_notes_service_s21"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="normal|bold" />
+                    </LinearLayout>
+
+
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:id="@+id/llFooter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tableDataS21"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="2dp"
+                    android:text="@string/label_footer_service_s21"
+                    android:textColor="@color/colorGrayDark"
+                    android:textSize="10dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </HorizontalScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlDataPublisher"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp">
+
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fábio Santiago da Paixão"
+        android:textSize="18dp"
+        android:textStyle="normal|bold" />
+
+    <RelativeLayout
+        android:id="@+id/rlPersonalData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtName"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/my_custom_background">
+
+        <TextView
+            android:id="@+id/txtTitlePersonal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/label_personal_data"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="18dp"
+            android:textStyle="normal|bold" />
+
+        <TableLayout
+            android:id="@+id/tablePersonalData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitlePersonal"
+            android:layout_marginTop="10dp"
+            android:padding="5dp">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_gender"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/txtGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp" />
+
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_birth"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/txtBirth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp" />
+            </TableRow>
+
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_mobile"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/txtMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_email"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_address"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/txtAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp" />
+            </TableRow>
+        </TableLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlEmergencyContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlPersonalData"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/my_custom_background">
+
+        <TextView
+            android:id="@+id/txtTitleContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/label_emergency_contact"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="18dp"
+            android:textStyle="normal|bold" />
+
+
+        <HorizontalScrollView
+            android:id="@+id/hsEmergencyContactData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitleContact"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:id="@+id/tableEmergency1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <!-- Header -->
+                    <TableRow
+                        android:background="@color/colorGrayAccent"
+                        android:padding="1dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="160dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_first_contact"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_nota"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_jehovahs_witness"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_mobile"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:paddingLeft="5dp"
+                                android:text="@string/label_address"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <!-- Info -->
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorGrayAccent"
+                        android:padding="1dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtName1"
+                                android:layout_width="160dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtNota1"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <CheckBox
+                                android:id="@+id/txtJehovas1"
+                                android:clickable="false"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtMobile1"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtAddress1"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <TableLayout
+                    android:id="@+id/tableEmergency2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tableEmergency1"
+                    android:layout_marginTop="10dp">
+
+
+                    <!-- Header -->
+                    <TableRow
+                        android:background="@color/colorGrayAccent"
+                        android:padding="1dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="160dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_first_contact"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_nota"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_jehovahs_witness"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="@string/label_mobile"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorAccent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:paddingLeft="5dp"
+                                android:text="@string/label_address"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <!-- Info -->
+                    <TableRow
+                        android:background="@color/colorGrayAccent"
+                        android:padding="1dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtName2"
+                                android:layout_width="160dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtNota2"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <CheckBox
+                                android:id="@+id/txtJehovas2"
+                                android:layout_width="wrap_content"
+                                android:clickable="false"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtMobile2"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/colorWhite"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtAddress2"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:textColor="@color/colorGrayAccent"
+                                android:textStyle="normal|bold" />
+                        </LinearLayout>
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </RelativeLayout>
+
+
+        </HorizontalScrollView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

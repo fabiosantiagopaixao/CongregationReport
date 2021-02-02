@@ -18,7 +18,7 @@
         android:textStyle="normal|bold" />
     <LinearLayout
         android:layout_width="2dp"
-        android:background="@color/buttonDefault"
+        android:background="@color/colorGrayDark"
         android:layout_height="match_parent"
         android:layout_marginLeft="3sp"
         android:layout_marginRight="3sp"

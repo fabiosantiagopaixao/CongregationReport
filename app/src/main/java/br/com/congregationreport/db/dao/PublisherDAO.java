@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 
 import br.com.congregationreport.db.GenericDAO;
+import br.com.congregationreport.models.CongReport;
 import br.com.congregationreport.models.Publisher;
+import br.com.congregationreport.util.Util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,16 +20,17 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         super(context, Publisher.class);
     }
 
-    public Publisher getPublisher(String email) {
+
+    public Publisher getPublisher(Integer id) {
         // Publicadores
         Publisher publisher = new Publisher();
 
         // Pega o cursor com os dados
         Map<String[], String> filtros = new HashMap<>();
         String[] tipoColuna = new String[2];
-        tipoColuna[0] = "STRING";
-        tipoColuna[1] = "email";
-        filtros.put(tipoColuna, email);
+        tipoColuna[0] = "INTEGER";
+        tipoColuna[1] = "id";
+        filtros.put(tipoColuna, id.toString());
         Cursor cursor = findFilterByEq(filtros, "name ASC");
 
         // Pega o primeiro elemento
@@ -43,10 +47,103 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         return publisher;
     }
 
-    public List<Publisher> getPublishers() {
+    public Publisher findPublisherByUser(String userName) {
+        // Publicadores
+        Publisher publisher = null;
+
+        // Pega o cursor com os dados
+        Map<String[], String> filtros = new HashMap<>();
+        String[] tipoColuna = new String[2];
+        tipoColuna[0] = "STRING";
+        tipoColuna[1] = "user_name";
+        filtros.put(tipoColuna, userName);
+        Cursor cursor = findFilterByEq(filtros, "name ASC");
+
+        // Pega o primeiro elemento
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            publisher = readRow(cursor);
+            cursor.moveToNext();
+        }
+        // Fecha o cursor
+        cursor.close();
+        // this.close();
+
+        // Retorna os dados
+        return publisher;
+    }
+
+    public List<Publisher> findPublisherByGroup(String group) {
+        // Publicadores
+        List<Publisher> publishers = new ArrayList<>();
+
+        // Pega o cursor com os dados
+        Map<String[], String> filtros = new HashMap<>();
+        String[] tipoColuna = new String[2];
+        tipoColuna[0] = "STRING";
+        tipoColuna[1] = "group_congregation";
+        filtros.put(tipoColuna, group);
+        Cursor cursor = findFilterByEq(filtros, "name ASC");
+
+        // Pega o primeiro elemento
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Publisher publisher = readRow(cursor);
+            publishers.add(publisher);
+            cursor.moveToNext();
+        }
+        // Fecha o cursor
+        cursor.close();
+        // this.close();
+
+        // Retorna os dados
+        return publishers;
+    }
+
+    public List<Publisher> findPublishers() {
         List<Publisher> publishers = new ArrayList<>();
 
         Cursor cursor = findAll("name ASC");
+
+        // Pega o primeiro elemento
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Publisher publisher = readRow(cursor);
+            publishers.add(publisher);
+            cursor.moveToNext();
+        }
+        // Fecha o cursor
+        cursor.close();
+        // this.close();
+
+        // Retorna os dados
+        return publishers;
+    }
+
+    public List<Publisher> findPublishersByType(Context context, int type) {
+        List<Publisher> publishers = new ArrayList<>();
+        String query = "";
+
+        try {
+            switch (type) {
+                case CongReport.PUBLISHER:
+                    query = Util.parseInputStreamToString(context.getAssets().open("find_only_publishers.sql"));
+                    break;
+                case CongReport.AUXILIARY:
+                    query = Util.parseInputStreamToString(context.getAssets().open("find_only_auxiliary.sql"));
+                    break;
+                case CongReport.DEAF:
+                    query = Util.parseInputStreamToString(context.getAssets().open("find_only_deaf.sql"));
+                    break;
+                case CongReport.REGULAR:
+                    query = Util.parseInputStreamToString(context.getAssets().open("find_only_regular.sql"));
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Cursor cursor = findFilterWhere(query);
 
         // Pega o primeiro elemento
         cursor.moveToFirst();
@@ -88,15 +185,23 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         if (result == -1) {
             return null;
         }
-        //this.close();
-        publisher.setId(Integer.parseInt(result.toString()));
         return publisher;
     }
 
-    public ContentValues getValues(Publisher publisher) {
+    private ContentValues getValues(Publisher publisher) {
         ContentValues values = new ContentValues();
         try {
             values.put("name", publisher.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("last_name", publisher.getLastName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("gender", publisher.getGender());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,11 +217,6 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         }
         try {
             values.put("cell_phone", publisher.getCellPhone());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            values.put("phones", publisher.getPhones());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,12 +246,7 @@ public class PublisherDAO extends GenericDAO<Publisher> {
             e.printStackTrace();
         }
         try {
-            values.put("notes", publisher.getNotes());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            values.put("gender", publisher.getGender());
+            values.put("gps", publisher.getGps());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,6 +318,88 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            values.put("coordinator", publisher.isCoordinator());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("secretary", publisher.isSecretary());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("sup_service", publisher.isCoordinator());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("user_name", publisher.getUserName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("password", publisher.getPassword());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("notes", publisher.getNotes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Contact Data 1
+        try {
+            values.put("contact_name1", publisher.getContactName1());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_note1", publisher.getContactNote1());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_is_jehovahs_witness1", publisher.isJehovahsWitness1());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_phone1", publisher.getContactPhone1());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_address1", publisher.getContactAddress1());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Contact Data 2
+        try {
+            values.put("contact_name2", publisher.getContactName2());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_note2", publisher.getContactNote2());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_is_jehovahs_witness2", publisher.isJehovahsWitness2());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_phone2", publisher.getContactPhone2());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("contact_address2", publisher.getContactAddress2());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return values;
     }
@@ -238,6 +415,13 @@ public class PublisherDAO extends GenericDAO<Publisher> {
             try {
                 publisher.setLastName(
                         cursor.getString(cursor.getColumnIndex("last_name"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setGender(
+                        cursor.getString(cursor.getColumnIndex("gender"))
                 );
             } catch (Exception e) {
                 e.printStackTrace();
@@ -259,13 +443,6 @@ public class PublisherDAO extends GenericDAO<Publisher> {
             try {
                 publisher.setCellPhone(
                         cursor.getString(cursor.getColumnIndex("cell_phone"))
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                publisher.setPhones(
-                        cursor.getString(cursor.getColumnIndex("phones"))
                 );
             } catch (Exception e) {
                 e.printStackTrace();
@@ -306,15 +483,8 @@ public class PublisherDAO extends GenericDAO<Publisher> {
                 e.printStackTrace();
             }
             try {
-                publisher.setNotes(
-                        cursor.getString(cursor.getColumnIndex("notes"))
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                publisher.setGender(
-                        cursor.getString(cursor.getColumnIndex("gender"))
+                publisher.setGps(
+                        cursor.getString(cursor.getColumnIndex("gps"))
                 );
             } catch (Exception e) {
                 e.printStackTrace();
@@ -327,67 +497,175 @@ public class PublisherDAO extends GenericDAO<Publisher> {
                 e.printStackTrace();
             }
             try {
-                publisher.setFamilyHead(cursor.getInt(cursor.getColumnIndex("family_head")) > 0);
+                publisher.setFamilyHead(cursor.getInt(cursor.getColumnIndex("family_head")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setPublisher(cursor.getInt(cursor.getColumnIndex("publisher")) > 0);
+                publisher.setPublisher(cursor.getInt(cursor.getColumnIndex("publisher")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setRegularPioneer(cursor.getInt(cursor.getColumnIndex("regular_pioneer")) > 0);
+                publisher.setRegularPioneer(cursor.getInt(cursor.getColumnIndex("regular_pioneer")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setSpecialPioneer(cursor.getInt(cursor.getColumnIndex("special_pioneer")) > 0);
+                publisher.setSpecialPioneer(cursor.getInt(cursor.getColumnIndex("special_pioneer")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setMissionary(cursor.getInt(cursor.getColumnIndex("missionary")) > 0);
+                publisher.setMissionary(cursor.getInt(cursor.getColumnIndex("missionary")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setDeaf(cursor.getInt(cursor.getColumnIndex("deaf")) > 0);
+                publisher.setDeaf(cursor.getInt(cursor.getColumnIndex("deaf")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setElder(cursor.getInt(cursor.getColumnIndex("elder")) > 0);
+                publisher.setElder(cursor.getInt(cursor.getColumnIndex("elder")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setSupGroup(cursor.getInt(cursor.getColumnIndex("sup_group")) > 0);
+                publisher.setSupGroup(cursor.getInt(cursor.getColumnIndex("sup_group")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setSupGroup(cursor.getInt(cursor.getColumnIndex("sup_group")) > 0);
+                publisher.setSupGroup(cursor.getInt(cursor.getColumnIndex("sup_group")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setServantMinisterial(cursor.getInt(cursor.getColumnIndex("servant_ministerial")) > 0);
+                publisher.setServantMinisterial(cursor.getInt(cursor.getColumnIndex("servant_ministerial")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setServantMinisterial(cursor.getInt(cursor.getColumnIndex("servant_ministerial")) > 0);
+                publisher.setServantMinisterial(cursor.getInt(cursor.getColumnIndex("servant_ministerial")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setGroupHelp(cursor.getInt(cursor.getColumnIndex("group_help")) > 0);
+                publisher.setGroupHelp(cursor.getInt(cursor.getColumnIndex("group_help")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                publisher.setAnointed(cursor.getInt(cursor.getColumnIndex("anointed")) > 0);
+                publisher.setAnointed(cursor.getInt(cursor.getColumnIndex("anointed")) == 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setCoordinator(cursor.getInt(cursor.getColumnIndex("coordinator")) == 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setSecretary(cursor.getInt(cursor.getColumnIndex("secretary")) == 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setSupService(cursor.getInt(cursor.getColumnIndex("sup_service")) == 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setUserName(
+                        cursor.getString(cursor.getColumnIndex("user_name"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setPassword(
+                        cursor.getString(cursor.getColumnIndex("password"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setNotes(
+                        cursor.getString(cursor.getColumnIndex("notes"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // Contact Data 1
+            try {
+                publisher.setContactName1(
+                        cursor.getString(cursor.getColumnIndex("contact_name1"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setContactNote1(
+                        cursor.getString(cursor.getColumnIndex("contact_note1"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setJehovahsWitness1(
+                        cursor.getInt(cursor.getColumnIndex("contact_is_jehovahs_witness1")) == 1
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setContactPhone1(
+                        cursor.getString(cursor.getColumnIndex("contact_phone1"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setContactAddress1(
+                        cursor.getString(cursor.getColumnIndex("contact_address1"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // Contact Data 2
+            try {
+                publisher.setContactName2(
+                        cursor.getString(cursor.getColumnIndex("contact_name2"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setContactNote2(
+                        cursor.getString(cursor.getColumnIndex("contact_note2"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setJehovahsWitness2(
+                        cursor.getInt(cursor.getColumnIndex("contact_is_jehovahs_witness2")) == 1
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setContactPhone2(
+                        cursor.getString(cursor.getColumnIndex("contact_phone2"))
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setContactAddress2(
+                        cursor.getString(cursor.getColumnIndex("contact_address2"))
+                );
             } catch (Exception e) {
                 e.printStackTrace();
             }
