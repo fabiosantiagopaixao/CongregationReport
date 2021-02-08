@@ -24,4 +24,4 @@ WHERE
 	AND publisher.regular_pioneer = 1
 	AND report.hours > 0 
 	
-ORDER BY publisher.id ASC
+ORDER BY publisher.name ASC

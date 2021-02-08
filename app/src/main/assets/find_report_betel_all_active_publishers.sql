@@ -24,4 +24,4 @@ WHERE
 	AND report.hours > 0
 	OR report.preaching_fifteen_min_less = 1
 
-ORDER BY publisher.id ASC
+ORDER BY publisher.name ASC

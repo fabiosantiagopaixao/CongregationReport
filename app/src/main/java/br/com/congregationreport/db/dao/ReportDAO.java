@@ -481,5 +481,4 @@ public class ReportDAO extends GenericDAO<Report> {
         return report;
     }
 
-
 }

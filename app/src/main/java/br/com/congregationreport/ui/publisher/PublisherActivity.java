@@ -1,10 +1,18 @@
 package br.com.congregationreport.ui.publisher;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.HorizontalScrollView;
@@ -82,7 +91,21 @@ public class PublisherActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void print() {
+       /* try {
+            PdfDocument document = new PdfDocument();
+
+
+            // crate a page description
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.
+                    Builder((int) PDF_PAGE_WIDTH, (int) PDF_PAGE_HEIGHT, i + 1).create();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }*/
+
+
         // Cria o dialog
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_message);
@@ -201,7 +224,15 @@ public class PublisherActivity extends AppCompatActivity {
             TextView txtAddress = view.findViewById(R.id.txtAddress);
             txtAddress.setText(publisher.getAddress() == null ? "" : publisher.getAddress());
             TextView txtMobile = view.findViewById(R.id.txtMobile);
+            final String mobile = publisher.getCellPhone() == null ? "" : publisher.getCellPhone();
+            txtMobile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openDialogContact(mobile);
+                }
+            });
             txtMobile.setText(publisher.getCellPhone() == null ? "" : publisher.getCellPhone());
+            txtMobile.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
             TextView txtEmail = view.findViewById(R.id.txtEmail);
             txtEmail.setText(publisher.getEmail() == null ? "" : publisher.getEmail());
             // ------------
@@ -219,6 +250,14 @@ public class PublisherActivity extends AppCompatActivity {
             txtJehovas1.setChecked(publisher.isJehovahsWitness1());
             TextView txtMobile1 = view.findViewById(R.id.txtMobile1);
             txtMobile1.setText(publisher.getContactPhone1() == null ? "" : publisher.getContactPhone1());
+            txtMobile1.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+            final String mobile1 = publisher.getContactPhone1() == null ? "" : publisher.getContactPhone1();
+            txtMobile1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openDialogContact(mobile1);
+                }
+            });
             TextView txtAddress1 = view.findViewById(R.id.txtAddress1);
             txtAddress1.setText(publisher.getContactAddress1() == null ? "" : publisher.getContactAddress1());
             // Contact Data 2
@@ -231,6 +270,14 @@ public class PublisherActivity extends AppCompatActivity {
             txtJehovas2.setChecked(publisher.isJehovahsWitness2());
             TextView txtMobile2 = view.findViewById(R.id.txtMobile2);
             txtMobile2.setText(publisher.getContactPhone2() == null ? "" : publisher.getContactPhone2());
+            txtMobile2.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+            final String mobile2 = publisher.getContactPhone2() == null ? "" : publisher.getContactPhone2();
+            txtMobile2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openDialogContact(mobile2);
+                }
+            });
             TextView txtAddress2 = view.findViewById(R.id.txtAddress2);
             txtAddress2.setText(publisher.getContactAddress2() == null ? "" : publisher.getContactAddress2());
 
@@ -329,6 +376,62 @@ public class PublisherActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void openDialogContact(final String number) {
+        try {
+            // Cria o dialog
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog_contact);
+
+            // Executa a ação
+            Button btnCall = (Button) dialog.findViewById(R.id.btnCall);
+            btnCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    call(number);
+                }
+            });
+
+            Button btnWhatsapp = (Button) dialog.findViewById(R.id.btnWhatsapp);
+            btnWhatsapp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callWhatsap(number);
+                }
+            });
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void callWhatsap(String number) {
+        try {
+            String text = number.contains("+") ? number : "+591" + number;
+
+            Uri uri = Uri.parse("smsto:" + text);
+            Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+            i.setPackage("com.whatsapp");
+            startActivity(Intent.createChooser(i, ""));
+
+        } catch (Exception e) {
+            Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    private void call(String number) {
+        try {
+            Intent intent = new Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.fromParts("tel", number, null)
+            );
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void addComponenteBelow(View view, int previousId, Params margin) {
         try {

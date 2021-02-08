@@ -16,8 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 public class PublisherDAO extends GenericDAO<Publisher> {
+
+    private Context context;
     public PublisherDAO(Context context) {
         super(context, Publisher.class);
+        this.context = context;
     }
 
 
@@ -71,6 +74,38 @@ public class PublisherDAO extends GenericDAO<Publisher> {
 
         // Retorna os dados
         return publisher;
+    }
+
+    public List<Publisher> findPublisherNotSendReport(String month, String year) {
+        // Publicadores
+        List<Publisher> publishers = new ArrayList<>();
+        String query = "";
+
+        try {
+            query = Util.parseInputStreamToString(this.context.getAssets().open("find_publishers_not_send_report.sql"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // average
+        try {
+            query = query.replace("$P{MONTH}", month);
+            query = query.replace("$P{YEAR}", year);
+            Cursor cursor = findFilterWhere(query);
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Publisher publisher = readRow(cursor);
+                publishers.add(publisher);
+                cursor.moveToNext();
+            }
+            // Fecha o cursor
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return publishers;
     }
 
     public List<Publisher> findPublisherByGroup(String group) {

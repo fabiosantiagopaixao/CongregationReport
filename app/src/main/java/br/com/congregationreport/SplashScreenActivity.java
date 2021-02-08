@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
 import java.util.Date;
-
 import br.com.congregationreport.async.DownloadDataGoogleSheetTask;
 import br.com.congregationreport.db.dao.AppDAO;
 import br.com.congregationreport.models.App;

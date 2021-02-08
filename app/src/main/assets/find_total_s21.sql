@@ -24,4 +24,4 @@ WHERE
 	
 GROUP BY report.month
 	
-ORDER BY publisher.id ASC
+ORDER BY publisher.name ASC

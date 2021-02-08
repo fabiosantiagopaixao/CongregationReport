@@ -1223,7 +1223,16 @@ public class CongregationReportActivity extends AppCompatActivity {
     private void createReports(View viewScreen) {
         RelativeLayout view = (RelativeLayout) viewScreen;
         try {
+            List<Publisher> publishersNorSendReport =
+                    this.publisherDAO.findPublisherNotSendReport(
+                            UtilDateHour.getMonthBySelected(this, this.monthSelected),
+                            this.yearSelected
+                    );
+
             List<Integer> reports = new ArrayList<>();
+            if (publishersNorSendReport.size() > 0) {
+                reports.add(CongReport.SEND);
+            }
             reports.add(CongReport.ASSISTANCE);
             reports.add(CongReport.TOTAL);
             reports.add(CongReport.PUBLISHER);
@@ -1293,8 +1302,29 @@ public class CongregationReportActivity extends AppCompatActivity {
                             false
                     );
                     linearLayout.addView(txtAverage);
-                } else {
+                } else if (id == CongReport.SEND) {
+                    String title = viewScreen.getResources().getString(R.string.label_not_send_report);
+                    linearLayout.addView(
+                            this.createTextView(
+                                    title,
+                                    true,
+                                    view.getResources().getColor(R.color.colorBlack),
+                                    20,
+                                    false
+                            )
+                    );
+                    for (Publisher publisher : publishersNorSendReport) {
+                        TextView txtNamePublisher = this.createTextView(
+                                "* " + publisher.getFullName(),
+                                false,
+                                view.getResources().getColor(R.color.colorGrayAccent),
+                                15,
+                                true);
+                        txtNamePublisher.setTextColor(view.getResources().getColor(R.color.colorRed));
+                        linearLayout.addView(txtNamePublisher);
+                    }
 
+                } else {
                     CongReport report = this.reportDAO.getReportByBetel(
                             UtilDateHour.getMonthBySelected(this, this.monthSelected),
                             this.yearSelected,

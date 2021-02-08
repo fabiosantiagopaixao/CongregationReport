@@ -49,24 +49,26 @@
 
             <TextView
                 android:id="@+id/txtUser"
+                android:text="Fábio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:layout_marginTop="15dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <TextView
                 android:id="@+id/txtInfo"
                 android:layout_width="match_parent"
+                android:text="Precursor Regular"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtUser"
-                android:paddingTop="@dimen/nav_header_vertical_spacing" />
+                android:layout_below="@+id/txtUser"/>
 
             <TextView
                 android:id="@+id/txtNameCongregation"
                 android:layout_width="match_parent"
+                android:textSize="9dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtInfo"
-                android:paddingTop="@dimen/nav_header_vertical_spacing" />
+                android:text="Cong. Trinidad 5090" />
 
         </RelativeLayout>
     </RelativeLayout>

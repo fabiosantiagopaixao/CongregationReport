@@ -10,12 +10,13 @@ public class CongReport {
     private Integer courses;
     private Integer activePublishers;
     private Float assistanceAverage;
-    public static final int ASSISTANCE = 1;
-    public static final int TOTAL = 2;
-    public static final int PUBLISHER = 3;
-    public static final int AUXILIARY = 4;
-    public static final int REGULAR = 5;
-    public static final int DEAF = 6;
+    public static final int SEND = 1;
+    public static final int ASSISTANCE = 2;
+    public static final int TOTAL = 3;
+    public static final int PUBLISHER = 4;
+    public static final int AUXILIARY = 5;
+    public static final int REGULAR = 6;
+    public static final int DEAF = 7;
 
     public CongReport() {
         this.reports = 0;

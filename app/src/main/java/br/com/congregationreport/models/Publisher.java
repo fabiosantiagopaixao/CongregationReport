@@ -462,7 +462,7 @@ public class Publisher {
             } else {
                 bottomName = context.getResources().getString(R.string.publisher);
             }
-        }else{
+        } else {
             if (this.isRegularPioneer()) {
                 bottomName = context.getResources().getString(R.string.regular_pioneer_w);
             } else if (this.isSpecialPioneer()) {
@@ -801,5 +801,9 @@ public class Publisher {
 
     public void setJehovahsWitness2(boolean jehovahsWitness2) {
         this.jehovahsWitness2 = jehovahsWitness2;
+    }
+
+    public String getFullName() {
+        return this.name + " " + this.lastName;
     }
 }

@@ -20,6 +20,7 @@ import br.com.congregationreport.models.Login;
 import br.com.congregationreport.models.Publisher;
 import br.com.congregationreport.task.BaseTask;
 import br.com.congregationreport.task.TaskRunner;
+import br.com.congregationreport.util.Util;
 import br.com.congregationreport.util.UtilDataMemory;
 
 public class LoginActivity extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean saveDataLogin;
     private Login login;
     private TaskRunner runner;
+    private Publisher publisher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,9 @@ public class LoginActivity extends AppCompatActivity {
         this.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createMessageSaveData();
+                if (validate()) {
+                    createMessageSaveData();
+                }
             }
         });
     }
@@ -116,6 +120,40 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private boolean validate() {
+        try {
+            if (txtUsuario.getText().toString() == null || txtUsuario.getText().toString().isEmpty()) {
+                this.txtUsuario.setError(getResources().getString(R.string.msg_login_usuario_vazio));
+                return false;
+            }
+            if (txtSenha.getText().toString() == null || txtSenha.getText().toString().isEmpty()) {
+                this.txtSenha.setError(getResources().getString(R.string.msg_login_senha_vazia));
+                return false;
+            }
+            this.publisher = publisherDAO.findPublisherByUser(txtUsuario.getText().toString());
+            if (this.publisher == null) {
+                Toast.makeText(
+                        LoginActivity.this,
+                        getResources().getString(R.string.msg_login_user_not_found),
+                        Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+            if (!this.publisher.getPassword().equals(txtSenha.getText().toString())) {
+                Toast.makeText(
+                        LoginActivity.this,
+                        getResources().getString(R.string.msg_login_password_invalido),
+                        Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     // AsyncTask<P1, P2, P3>
     // P1 = doInBackground parameter
     // P2 = onProgressUpdate parameter
@@ -148,32 +186,21 @@ public class LoginActivity extends AppCompatActivity {
                     password = login.getPassword();
                 }
 
-                if (user == null || user.isEmpty()) {
-                    txtUsuario.setError(getResources().getString(R.string.msg_login_usuario_vazio));
-                    return "2";
+                if (publisher == null) {
+                    Login login = loginDAO.getDataLogin();
+                    publisher = publisherDAO.findPublisherByUser(login.getUserName());
                 }
-                if (password == null || password.isEmpty()) {
-                    txtSenha.setError(getResources().getString(R.string.msg_login_senha_vazia));
-                    return "2";
-                }
-                Publisher publisher = publisherDAO.findPublisherByUser(user);
+                UtilDataMemory.publisher = publisher;
+                UtilDataMemory.setting = settingDAO.getSetting();
 
-                if (publisher != null && publisher.getId() != null && publisher.getPassword().equals(password)) {
-                    UtilDataMemory.publisher = publisher;
-                    UtilDataMemory.setting = settingDAO.getSetting();
-
-                    if (saveDataLogin) {
-                        Login login = new Login();
-                        login.setPassword(password);
-                        login.setUserName(user);
-                        loginDAO.save(login);
-                    }
-
-                    return "1";
-                } else {
-                    return "0";
+                if (saveDataLogin) {
+                    Login login = new Login();
+                    login.setPassword(password);
+                    login.setUserName(user);
+                    loginDAO.save(login);
                 }
 
+                return "1";
             } catch (Exception e) {
                 return "0";
             }
@@ -185,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
             if (result.equals("0")) {
                 Toast.makeText(
                         LoginActivity.this,
-                        getResources().getString(R.string.msg_login_invalido),
+                        getResources().getString(R.string.msg_login__erro),
                         Toast.LENGTH_SHORT
                 ).show();
             } else if (result.equals("1")) {

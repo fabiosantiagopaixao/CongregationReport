@@ -22,11 +22,12 @@ import br.com.congregationreport.models.Assistance;
 import br.com.congregationreport.models.Login;
 import br.com.congregationreport.models.Publisher;
 import br.com.congregationreport.models.Report;
+import br.com.congregationreport.task.BaseTask;
 import br.com.congregationreport.util.HttpRequestUtil;
 import br.com.congregationreport.util.UtilDataMemory;
 import br.com.congregationreport.util.UtilConstants;
 
-public class SendData extends AsyncTask<Void, Void, Integer> {
+public class SendData extends BaseTask {
 
     private TextView txtMessage;
     private RelativeLayout layoutLoading;
@@ -55,7 +56,8 @@ public class SendData extends AsyncTask<Void, Void, Integer> {
     }
 
 
-    protected void onPreExecute() {
+    @Override
+    public void setUiForLoading() {
         this.layoutLoading = (RelativeLayout) this.activity.findViewById(
                 R.id.layoutLoading);
         this.layoutLoading.setVisibility(View.VISIBLE);
@@ -70,11 +72,10 @@ public class SendData extends AsyncTask<Void, Void, Integer> {
         if (this.type == UtilConstants.DELETE) {
             this.txtMessage.setText(this.context.getResources().getString(R.string.msg_deleting));
         }
-        this.layoutLoading.setVisibility(View.VISIBLE);
-        super.onPreExecute();
     }
 
-    protected Integer doInBackground(Void... params) {
+    @Override
+    public Object callInBackground() throws Exception {
         try {
             this.app = this.appDAO.getApp();
             String url = this.app.getUrl();
@@ -125,33 +126,9 @@ public class SendData extends AsyncTask<Void, Void, Integer> {
         }
     }
 
-    private String saveReport(Report report) {
-        report = this.reportDAO.save(report);
-        return report.getId().toString();
-    }
-
-    private String saveAssistance(Assistance assistance) {
-        assistance = this.assistanceDAO.save(assistance);
-        return assistance.getId().toString();
-    }
-
-    private String updatePublisher(Publisher publisher) {
-        publisher = this.publisherDAO.update(publisher);
-
-        // Save data login
-        Login login = this.loginDAO.getDataLogin();
-        login.setPassword(publisher.getPassword());
-        this.loginDAO.update(login);
-
-        // Save firt login
-        this.app.setFirstRun(false);
-        appDAO.update(this.app);
-
-        return publisher.getId().toString();
-    }
-
     @Override
-    protected void onPostExecute(Integer result) {
+    public void setDataAfterLoading(Object object) {
+        Integer result = (Integer) object;
         if (result >= 200 && result < 300) {
             try {
                 switch (this.data.getString("model")) {
@@ -182,7 +159,34 @@ public class SendData extends AsyncTask<Void, Void, Integer> {
             }
         }
         this.layoutLoading.setVisibility(View.GONE);
-        super.onPostExecute(result);
+    }
+
+
+    private String saveReport(Report report) {
+        report = this.reportDAO.save(report);
+        return report.getId().toString();
+    }
+
+    private String saveAssistance(Assistance assistance) {
+        assistance = this.assistanceDAO.save(assistance);
+        return assistance.getId().toString();
+    }
+
+    private String updatePublisher(Publisher publisher) {
+        publisher = this.publisherDAO.update(publisher);
+
+        // Save data login
+        Login login = this.loginDAO.getDataLogin();
+        if (login != null) {
+            login.setPassword(publisher.getPassword());
+            this.loginDAO.update(login);
+        }
+
+        // Save firt login
+        this.app.setFirstRun(false);
+        appDAO.update(this.app);
+
+        return publisher.getId().toString();
     }
 
 

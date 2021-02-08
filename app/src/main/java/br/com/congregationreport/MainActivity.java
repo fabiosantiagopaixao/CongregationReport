@@ -24,6 +24,7 @@ import br.com.congregationreport.models.Assistance;
 import br.com.congregationreport.models.Login;
 import br.com.congregationreport.models.Publisher;
 import br.com.congregationreport.service.NotificationService;
+import br.com.congregationreport.task.TaskRunner;
 import br.com.congregationreport.ui.assistance.AddAssistanceActivity;
 import br.com.congregationreport.util.Util;
 import br.com.congregationreport.util.UtilConstants;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private Login login;
     private AppDAO appDAO;
     private App app;
+    private TaskRunner runner;
     private static String CHANNEL_ID = "REPORT_CHANNEL";
 
     @Override
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        this.runner = new TaskRunner();
         View headerLayout = this.navigationView.getHeaderView(0);
         this.imgUser = (ImageView) headerLayout.findViewById(R.id.imgUser);
         String female = UtilConstants.Woman;
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             String password = this.txtPassword.getText().toString();
             String newPassword = this.txtNewPassword.getText().toString();
 
-            if (password.equals(this.login.getPassword())) {
+            if (this.login != null && password.equals(this.login.getPassword())) {
                 Util.createToast(this, this.getResources().getString(R.string.password_cannot_be_the_same));
                 return false;
             }
@@ -180,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -189,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             String password = this.txtPassword.getText().toString();
 
             // Senda update
-            new SendData(MainActivity.this, createDataJSON(password)).execute();
+            this.runner.executeAsync(new SendData(MainActivity.this, createDataJSON(password)));
         } catch (Exception e) {
             e.printStackTrace();
         }

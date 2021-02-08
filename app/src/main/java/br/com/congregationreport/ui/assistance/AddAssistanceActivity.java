@@ -20,10 +20,12 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.Date;
 
+import br.com.congregationreport.MainActivity;
 import br.com.congregationreport.R;
 import br.com.congregationreport.async.SendData;
 import br.com.congregationreport.db.dao.AssistanceDAO;
 import br.com.congregationreport.models.Assistance;
+import br.com.congregationreport.task.TaskRunner;
 import br.com.congregationreport.util.Util;
 import br.com.congregationreport.util.UtilDataMemory;
 import br.com.congregationreport.util.UtilDateHour;
@@ -41,6 +43,7 @@ public class AddAssistanceActivity extends AppCompatActivity {
     private JSONObject data;
     private Assistance currentAssistance;
     private AssistanceDAO assistanceDAO;
+    private TaskRunner runner;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     @Override
@@ -59,6 +62,7 @@ public class AddAssistanceActivity extends AppCompatActivity {
 
     private void init() {
         try {
+            this.runner = new TaskRunner();
             this.assistanceDAO = UtilDataMemory.getAssistanceDAO(this);
             this.txtTitle = (TextView) this.findViewById(R.id.txtTitle);
             this.txtDate = (EditText) this.findViewById(R.id.txtDate);
@@ -164,8 +168,7 @@ public class AddAssistanceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-
-                    new SendData(AddAssistanceActivity.this, data).execute();
+                    runner.executeAsync(new SendData(AddAssistanceActivity.this, data));
                 }
             });
 

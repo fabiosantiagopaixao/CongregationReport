@@ -30,7 +30,7 @@ SELECT
     publisher.sup_service boolean,
     publisher.user_name,
     publisher.password,
-    publisher.notes text
+    publisher.notes
 
 FROM publisher
 INNER JOIN report ON publisher.id = report.id_publisher

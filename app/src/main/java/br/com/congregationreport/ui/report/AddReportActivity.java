@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +22,8 @@ import br.com.congregationreport.R;
 import br.com.congregationreport.async.SendData;
 import br.com.congregationreport.models.Publisher;
 import br.com.congregationreport.models.Report;
+import br.com.congregationreport.task.TaskRunner;
+import br.com.congregationreport.util.Util;
 import br.com.congregationreport.util.UtilDataMemory;
 import br.com.congregationreport.util.UtilDateHour;
 import br.com.congregationreport.util.UtilConstants;
@@ -40,9 +44,11 @@ public class AddReportActivity extends AppCompatActivity {
     private EditText txtNotes;
     private Button btnAdd;
     private Button btnPreachingFifteenMinLess;
+    private LinearLayout llRad;
     private String type;
     private JSONObject data;
     private Publisher publisher;
+    private TaskRunner runner;
     private Report currentReport;
 
 
@@ -63,6 +69,7 @@ public class AddReportActivity extends AppCompatActivity {
 
     private void init() {
         try {
+            this.runner = new TaskRunner();
             this.publisher = UtilDataMemory.publisher;
             this.txtTitle = (TextView) this.findViewById(R.id.txtTitle);
             this.rlAuxiliaryPioneer = (RelativeLayout) this.findViewById(R.id.rlAuxiliaryPioneer);
@@ -74,6 +81,7 @@ public class AddReportActivity extends AppCompatActivity {
             this.txtRevisits = (EditText) this.findViewById(R.id.txtRevisits);
             this.txtStudies = (EditText) this.findViewById(R.id.txtStudies);
             this.txtCredit = (EditText) this.findViewById(R.id.txtCredit);
+            this.llRad = (LinearLayout) this.findViewById(R.id.llRad);
             this.txtNotes = (EditText) this.findViewById(R.id.txtNotes);
             this.btnPreachingFifteenMinLess = (Button) this.findViewById(R.id.btnPreachingFifteenMinLess);
             this.btnAdd = (Button) this.findViewById(R.id.btnAdd);
@@ -112,6 +120,13 @@ public class AddReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createDataJSON(true);
+            }
+        });
+        this.ckbAuxiliaryPioneer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+                llRad.setVisibility(checkBox.isChecked() ? View.VISIBLE : View.GONE);
             }
         });
     }
@@ -183,7 +198,7 @@ public class AddReportActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     dialog.dismiss();
 
-                    new SendData(AddReportActivity.this, data).execute();
+                    runner.executeAsync(new SendData(AddReportActivity.this, data));
                 }
             });
 
@@ -205,11 +220,26 @@ public class AddReportActivity extends AppCompatActivity {
         boolean validation = true;
         try {
             String hour = this.txtHours.getText().toString();
+            if (this.ckbAuxiliaryPioneer.isChecked()) {
+                boolean selected = false;
+                for (int i = 0; i < this.rdbAuxiliaryType.getChildCount(); i++) {
+                    RadioButton radioButton = (RadioButton) this.rdbAuxiliaryType.getChildAt(i);
+                    if (radioButton.isChecked()) {
+                        selected = true;
+                        break;
+                    }
+                }
+                if (!selected) {
+                    Util.createToast(this, this.getResources().getString(R.string.msg_selected_auxiliary));
+                    return false;
+                }
+            }
             if (hour.trim().isEmpty()) {
                 this.txtHours.setError(this.getResources().getString(R.string.label_hour_requeride));
                 this.txtHours.requestFocus();
-                validation = false;
+                return false;
             }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
