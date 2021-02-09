@@ -217,6 +217,7 @@
     <string name="label_whatsapp">Whatsapp</string>
     <string name="label_call">Llamar</string>
     <string name="msg_selected_auxiliary">Seleccione el número de horas como precursor auxiliar ¿30 o 50?</string>
+    <string name="all_send_report">Todos enviaron sus informes 👏</string>
     <string-array name="months">
         <item>SEPTIEMBRE</item>
         <item>OCTUBRE</item>

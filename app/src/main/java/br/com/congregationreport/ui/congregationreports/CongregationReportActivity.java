@@ -36,6 +36,7 @@ import java.util.Map;
 
 import br.com.congregationreport.R;
 import br.com.congregationreport.db.dao.AssistanceDAO;
+import br.com.congregationreport.db.dao.GroupDAO;
 import br.com.congregationreport.db.dao.PublisherDAO;
 import br.com.congregationreport.db.dao.ReportDAO;
 import br.com.congregationreport.enumerator.EnumMonth;
@@ -43,6 +44,7 @@ import br.com.congregationreport.models.AssistanceReport;
 import br.com.congregationreport.models.CongReport;
 import br.com.congregationreport.models.DataReportS21;
 import br.com.congregationreport.models.DataReportS88;
+import br.com.congregationreport.models.Group;
 import br.com.congregationreport.models.Params;
 import br.com.congregationreport.models.Publisher;
 import br.com.congregationreport.models.Report;
@@ -85,6 +87,7 @@ public class CongregationReportActivity extends AppCompatActivity {
     private ReportDAO reportDAO;
     private PublisherDAO publisherDAO;
     private AssistanceDAO assistanceDAO;
+    private GroupDAO groupDAO;
     private boolean openReportPublisher;
 
 
@@ -138,6 +141,7 @@ public class CongregationReportActivity extends AppCompatActivity {
             this.reportDAO = UtilDataMemory.getReportDAO(this);
             this.publisherDAO = UtilDataMemory.getPublisherDAO(this);
             this.assistanceDAO = UtilDataMemory.getAssistanceDAO(this);
+            this.groupDAO = UtilDataMemory.getGroupDAO(this);
 
             this.initListeners();
             this.createDataSpinner();
@@ -1313,16 +1317,46 @@ public class CongregationReportActivity extends AppCompatActivity {
                                     false
                             )
                     );
-                    for (Publisher publisher : publishersNorSendReport) {
-                        TextView txtNamePublisher = this.createTextView(
-                                "* " + publisher.getFullName(),
-                                false,
-                                view.getResources().getColor(R.color.colorGrayAccent),
+                    List<Group> groups = this.groupDAO.findGroups();
+                    for (Group group : groups) {
+                        Publisher supGroup = this.publisherDAO.findSupGroup(group.getName());
+
+
+                        // Name Group
+                        TextView txtGroup = this.createTextView(
+                                "   "+ group.getName() + " (" + supGroup.getFullName() + ")",
+                                true,
+                                view.getResources().getColor(R.color.colorAccent),
                                 15,
                                 true);
-                        txtNamePublisher.setTextColor(view.getResources().getColor(R.color.colorRed));
-                        linearLayout.addView(txtNamePublisher);
+                        linearLayout.addView(txtGroup);
+
+                        publishersNorSendReport =
+                                this.publisherDAO.findPublisherNotSendReportByGroup(
+                                        group.getName(),
+                                        UtilDateHour.getMonthBySelected(this, this.monthSelected),
+                                        this.yearSelected
+                                );
+                        if (publishersNorSendReport.size() == 0) {
+                            TextView txtNamePublisher = this.createTextView(
+                                    this.getResources().getString(R.string.all_send_report),
+                                    false,
+                                    view.getResources().getColor(R.color.colorGreen),
+                                    15,
+                                    true);
+                            linearLayout.addView(txtNamePublisher);
+                        }
+                        for (Publisher publisher : publishersNorSendReport) {
+                            TextView txtNamePublisher = this.createTextView(
+                                    "     * " + publisher.getFullName(),
+                                    false,
+                                    view.getResources().getColor(R.color.colorGrayAccent),
+                                    15,
+                                    true);
+                            linearLayout.addView(txtNamePublisher);
+                        }
                     }
+
 
                 } else {
                     CongReport report = this.reportDAO.getReportByBetel(
