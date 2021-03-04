@@ -21,5 +21,6 @@ WHERE
 	month = '$P{MONTH}'
 	AND report.year = $P{YEAR}
 	AND report.hours > 0
+	OR report.preaching_fifteen_min_less = 1
 
 ORDER BY report.id ASC

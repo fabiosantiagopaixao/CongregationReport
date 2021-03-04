@@ -17,7 +17,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * Este é o endereço onde o android salva os bancos de dados criado pela aplicação
      */
     private static final String DATABASE_NAME = "congregation_report.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private Context context;
 
 

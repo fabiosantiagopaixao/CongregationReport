@@ -258,6 +258,7 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         return publishers;
     }
 
+
     public Publisher save(Publisher publisher) {
         // Salva
         //this.open();

@@ -7,20 +7,15 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Paint;
-import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.HorizontalScrollView;
@@ -45,6 +40,9 @@ import br.com.congregationreport.task.TaskRunner;
 import br.com.congregationreport.util.Util;
 import br.com.congregationreport.util.UtilConstants;
 import br.com.congregationreport.util.UtilDataMemory;
+import br.com.congregationreport.util.UtilHtml;
+import br.com.congregationreport.util.UtilPDF;
+
 
 public class PublisherActivity extends AppCompatActivity {
 
@@ -56,6 +54,8 @@ public class PublisherActivity extends AppCompatActivity {
     private GroupDAO groupDAO;
     private TaskRunner runner;
     private int oldTxtData;
+    private String groupSelected;
+    private RelativeLayout layoutLoading;
 
 
     @Override
@@ -77,6 +77,7 @@ public class PublisherActivity extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -92,38 +93,12 @@ public class PublisherActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void print() {
-       /* try {
-            PdfDocument document = new PdfDocument();
-
-
-            // crate a page description
-            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.
-                    Builder((int) PDF_PAGE_WIDTH, (int) PDF_PAGE_HEIGHT, i + 1).create();
-
+    public void print() {
+        try {
+            this.runner.executeAsync(new GenerateDataForPrint());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-        }*/
-
-
-        // Cria o dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_message);
-        String msg = this.getString(R.string.msg_function_not_available);
-
-        // Pega os componentes
-        TextView text = (TextView) dialog.findViewById(R.id.txtMessage);
-        text.setText(msg);
-
-        // Executa a ação
-        Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+        }
     }
 
     private void init() {
@@ -136,7 +111,7 @@ public class PublisherActivity extends AppCompatActivity {
             this.rgOptionsGroups = this.findViewById(R.id.rgOptionsGroups);
             this.createRadionsButtons();
             this.initListeners();
-            runner.executeAsync(new LoadingData());
+            this.runner.executeAsync(new LoadingData());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -463,7 +438,6 @@ public class PublisherActivity extends AppCompatActivity {
 
     private class LoadingData extends BaseTask {
 
-        private RelativeLayout layoutLoading;
         private TextView txtMessage;
         private Activity activity;
 
@@ -473,13 +447,13 @@ public class PublisherActivity extends AppCompatActivity {
 
         @Override
         public void setUiForLoading() {
-            this.layoutLoading = (RelativeLayout) this.activity.findViewById(
+            layoutLoading = (RelativeLayout) this.activity.findViewById(
                     R.id.layoutLoading);
             this.txtMessage = (TextView) this.activity.findViewById(
                     R.id.txtMessage);
             this.txtMessage.setText(this.activity.getResources().getString(R.string.msg_loading_data));
-            this.layoutLoading.requestLayout();
-            this.layoutLoading.setVisibility(View.VISIBLE);
+            layoutLoading.requestLayout();
+            layoutLoading.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -493,8 +467,10 @@ public class PublisherActivity extends AppCompatActivity {
                     }
                 }
                 if (group.equals(this.activity.getResources().getString(R.string.label_all))) {
+                    groupSelected = "";
                     this.findAll();
                 } else {
+                    groupSelected = group;
                     this.findByGroup(group);
                 }
             } catch (Exception e) {
@@ -518,7 +494,7 @@ public class PublisherActivity extends AppCompatActivity {
                 );
                 toast.show();
             }
-            this.layoutLoading.setVisibility(View.GONE);
+            layoutLoading.setVisibility(View.GONE);
         }
 
 
@@ -536,6 +512,133 @@ public class PublisherActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class GenerateDataForPrint extends BaseTask {
+
+        private TextView txtMessage;
+        private Activity activity;
+        private String html;
+
+        public GenerateDataForPrint() {
+            this.activity = (Activity) PublisherActivity.this;
+        }
+
+        @Override
+        public void setUiForLoading() {
+            layoutLoading = (RelativeLayout) this.activity.findViewById(
+                    R.id.layoutLoading);
+            this.txtMessage = (TextView) this.activity.findViewById(
+                    R.id.txtMessage);
+            this.txtMessage.setText(this.activity.getResources().getString(R.string.msg_generating_data_printing));
+            layoutLoading.requestLayout();
+            layoutLoading.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public Object callInBackground() {
+            boolean generated = false;
+            try {
+                generated = this.generatingData();
+            } catch (Exception e) {
+                return Util.ERROR;
+            }
+            return generated ? Util.OK : Util.ERROR;
+        }
+
+
+        @Override
+        public void setDataAfterLoading(Object object) {
+            Integer result = (Integer) object;
+            if (result == Util.OK) {
+                printData();
+            }
+            if (result == Util.ERROR) {
+                Toast toast = Toast.makeText(
+                        this.activity,
+                        this.activity.getResources().getString(R.string.msg_generating_data_print_error),
+                        Toast.LENGTH_LONG
+                );
+                toast.show();
+            }
+        }
+
+
+        private boolean generatingData() {
+            try {
+                String topHtml = UtilHtml.getPublisherPageTop();
+
+                String pages = "";
+                int numberPage = 1;
+                Float resultPage = publishers.size() / 2f;
+                Integer totalPage = resultPage.toString().contains(".5")
+                        ? Integer.parseInt(
+                        resultPage.toString().replace(".5", "")
+                ) + 1 : Integer.parseInt(
+                        resultPage.toString().replace(".0", ""));
+
+                for (int i = 0; i < publishers.size(); i += 2) {
+
+                    // Init page
+                    String name = this.activity.getResources().getString(R.string.label_emergency_contacts);
+                    String g = groupSelected == null || groupSelected.isEmpty() ? "" : " (" + groupSelected + ")";
+                    String page = UtilHtml.getPublisherPageInit(name + g);
+
+                    // Add Content 1
+                    Publisher publisher = publishers.get(i);
+                    String content = UtilHtml.getPublisherContentHtml(this.activity, publisher, groupSelected != null);
+                    page = page + content;
+
+                    int secondValue = i + 1;
+                    if (secondValue < publishers.size()) {
+                        Publisher publisherSecond = publishers.get(secondValue);
+                        String contentSecond = UtilHtml.getPublisherContentHtml(this.activity, publisherSecond, groupSelected != null);
+                        page = page + contentSecond;
+                    }
+
+                    // End Page
+                    String pageEnd = UtilHtml.getPublisherPageEnd(numberPage + "/" + totalPage);
+                    page = page + pageEnd;
+
+                    // Add page to pages
+                    pages = pages + page;
+
+
+                    numberPage++;
+                }
+
+
+                String bottom = "\n" +
+                        "\t</body>\n" +
+                        "</html>";
+
+                this.html = topHtml + pages + bottom;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+
+        private void printData() {
+            try {
+                UtilPDF.generatePdfFromHtlm(
+                        this.activity,
+                        this.html
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (this.layoutLoading != null) {
+            this.layoutLoading.setVisibility(View.GONE);
         }
     }
 }

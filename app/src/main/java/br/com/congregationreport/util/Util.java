@@ -22,6 +22,7 @@ public class Util {
 
     public static int OK = 200;
     public static int NOT_FOUND = 404;
+    public static int ERROR = -1;
 
 
     public static boolean isDeviceOnline(Context context) {

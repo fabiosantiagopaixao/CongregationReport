@@ -16,13 +16,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import br.com.congregationreport.async.DownloadDataGoogleSheetTask;
 import br.com.congregationreport.async.SendData;
 import br.com.congregationreport.db.dao.AppDAO;
+import br.com.congregationreport.db.dao.AssistanceDAO;
+import br.com.congregationreport.db.dao.GroupDAO;
 import br.com.congregationreport.db.dao.LoginDAO;
+import br.com.congregationreport.db.dao.PublisherDAO;
+import br.com.congregationreport.db.dao.ReportDAO;
+import br.com.congregationreport.db.dao.SettingDAO;
 import br.com.congregationreport.models.App;
 import br.com.congregationreport.models.Assistance;
 import br.com.congregationreport.models.Login;
 import br.com.congregationreport.models.Publisher;
+import br.com.congregationreport.models.Setting;
 import br.com.congregationreport.service.NotificationService;
 import br.com.congregationreport.task.TaskRunner;
 import br.com.congregationreport.ui.assistance.AddAssistanceActivity;
@@ -44,6 +51,7 @@ import androidx.appcompat.widget.Toolbar;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,11 +62,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtInfo;
     private TextView txtNameCongregation;
     private TextView txtVersion;
-    private LoginDAO loginDAO;
     private TextView txtPassword;
     private TextView txtNewPassword;
     private Login login;
     private AppDAO appDAO;
+    private AssistanceDAO assistanceDAO;
+    private GroupDAO groupDAO;
+    private LoginDAO loginDAO;
+    private PublisherDAO publisherDAO;
+    private ReportDAO reportDAO;
+    private SettingDAO settingDAO;
     private App app;
     private TaskRunner runner;
     private static String CHANNEL_ID = "REPORT_CHANNEL";
@@ -119,13 +132,19 @@ public class MainActivity extends AppCompatActivity {
         String version = pInfo == null ? "1.0" : pInfo.versionName;
         this.txtVersion.setText(version);
 
-        this.loginDAO = new LoginDAO(this);
-        this.login = this.loginDAO.getDataLogin();
         this.appDAO = new AppDAO(this);
+        this.assistanceDAO = new AssistanceDAO(this);
+        this.groupDAO = new GroupDAO(this);
+        this.loginDAO = new LoginDAO(this);
+        this.publisherDAO = new PublisherDAO(this);
+        this.reportDAO = new ReportDAO(this);
+        this.settingDAO = new SettingDAO(this);
+
         this.app = this.appDAO.getApp();
         if (this.app.isFirstRun()) {
             this.createMessageChangePassword();
         }
+        this.login = this.loginDAO.getDataLogin();
     }
 
     private void createMessageChangePassword() {
@@ -250,8 +269,22 @@ public class MainActivity extends AppCompatActivity {
             case R.id.itemPrint:
                 this.print();
                 break;
+            case R.id.action_download:
+                this.download();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void download() {
+        try {
+            this.runner.executeAsync(new DownloadDataGoogleSheetTask(
+                    MainActivity.this,
+                    app.getUrl())
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -323,15 +356,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Login login = loginDAO.getDataLogin();
-                if (login != null && login.getId() > 0) {
-                    loginDAO.delete(login.getId());
-                }
+                deleteAllData();
+
                 Intent it = new Intent(MainActivity.this, ConnectionActivity.class);
                 MainActivity.this.startActivity(it);
             }
         });
         dialog.show();
+    }
+
+    private void deleteAllData() {
+        try {
+            this.appDAO.deleteAll();
+            this.assistanceDAO.deleteAll();
+            this.groupDAO.deleteAll();
+            this.loginDAO.deleteAll();
+            this.publisherDAO.deleteAll();
+            this.reportDAO.deleteAll();
+            this.settingDAO.deleteAll();
+            Setting setting = this.settingDAO.getSetting();
+            if (setting == null) {
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void exitApp() {

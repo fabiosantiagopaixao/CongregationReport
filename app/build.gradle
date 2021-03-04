@@ -7,10 +7,10 @@ android {
 
     defaultConfig {
         applicationId "br.com.congregationreport"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.0"
+        versionCode 5
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,6 +38,7 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation project(path: ':pdfcreator')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -112,6 +112,13 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
                 Intent it = new Intent(((Activity) this.context), LoginActivity.class);
                 ((Activity) this.context).startActivity(it);
             } else {
+                Publisher publisher = publisherDAO.findPublisherByUser(login.getUserName());
+                UtilDataMemory.publisher = publisher;
+                if (publisher == null || !publisher.getPassword().equals(login.getPassword())) {
+                    loginDAO.delete(login.getId());
+                    UtilDataMemory.publisher = null;
+                }
+                UtilDataMemory.setting = settingDAO.getSetting();
                 Intent it = new Intent(((Activity) this.context), MainActivity.class);
                 ((Activity) this.context).startActivity(it);
             }
@@ -168,10 +175,7 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
             appBD = App.getUpdate(appBD, currentApp, this.url);
 
             if (baixarDados) {
-
                 JSONArray jsonArray = jsonData.getJSONArray("data");
-
-
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                     String sheet = jsonObject.getString("sheet");
@@ -206,19 +210,9 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
                         appBD.setLastUpdated(dateNow);
                         this.appDAO.update(appBD);
                     }
-                    Login login = loginDAO.getDataLogin();
-                    if (login != null) {
-                        Publisher publisher = publisherDAO.findPublisherByUser(login.getUserName());
-                        UtilDataMemory.publisher = publisher;
-                        if (publisher == null || !publisher.getPassword().equals(login.getPassword())) {
-                            loginDAO.delete(login.getId());
-                            UtilDataMemory.publisher = null;
-                        }
-                    }
                 }
                 return saved;
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
             return false;

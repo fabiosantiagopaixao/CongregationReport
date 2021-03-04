@@ -251,7 +251,8 @@ public class ReportActivity extends AppCompatActivity implements Serializable {
             String year = UtilDateHour.formataDataHora(UtilDateHour.YEAR, currentDate);
 
             String dateFirstDayString = "01/" + month + "/" + year + " " + UtilDateHour.MIDNIGHT;
-            String dateTenDayString = "10/" + month + "/" + year + " " + UtilDateHour.MIDNIGHT;
+            // Até dia 10 de cda mês
+            String dateTenDayString = "15/" + month + "/" + year + " " + UtilDateHour.MIDNIGHT;
 
             Date dataFirstDay = UtilDateHour.stringToDate(UtilDateHour.DATE, dateFirstDayString);
             Date dataFifteentDay = UtilDateHour.stringToDate(UtilDateHour.DATE, dateTenDayString);

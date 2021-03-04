@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':pdfcreator'
 rootProject.name = "Congregation Report"

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">pdfcreator</string>
+    <string name="text_pdf_preview_not_support">A visualização de PDF não é compatível com o Android Lollipop abaixo</string>
+    <string name="text_next">Próxima</string>
+    <string name="text_generating_pdf">Gerar PDF</string>
+    <string name="text_next_page">Próxima Página</string>
+    <string name="text_previous_page">Página Anterior</string>
+    <string name="pdf_page_as_image">página de pdf como imagem</string>
+    <string name="label_of">de</string>
+</resources>

@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Fábio Santiago da Paixão"
+        android:textColor="@color/colorGrayDark"
         android:textSize="18dp"
         android:textStyle="normal|bold" />
 
@@ -190,7 +191,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center_horizontal"
-                                android:text="@string/label_first_contact"
+                                android:text="@string/label_contact"
                                 android:textColor="@color/colorWhite"
                                 android:textStyle="normal|bold" />
                         </LinearLayout>
@@ -384,7 +385,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center_horizontal"
-                                android:text="@string/label_first_contact"
+                                android:text="@string/label_contact"
                                 android:textColor="@color/colorWhite"
                                 android:textStyle="normal|bold" />
                         </LinearLayout>

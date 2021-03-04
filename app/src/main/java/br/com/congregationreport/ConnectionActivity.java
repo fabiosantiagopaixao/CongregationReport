@@ -43,9 +43,10 @@ public class ConnectionActivity extends AppCompatActivity {
                 }
                 if (Util.isDeviceOnline(ConnectionActivity.this)) {
                     if (validatenUrl(txtUrl.getText().toString())) {
+                        String url = txtUrl.getText().toString() + "&key=" + view.getResources().getString(R.string.app_key);
                         runner.executeAsync(new DownloadDataGoogleSheetTask(
                                 ConnectionActivity.this,
-                                txtUrl.getText().toString())
+                                url)
                         );
                     }
                 } else {

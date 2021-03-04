@@ -1,11 +1,14 @@
 package br.com.congregationreport.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Map;
+
+import br.com.congregationreport.models.Publisher;
 
 public class GenericDAO<E> {
 
@@ -207,33 +210,18 @@ public class GenericDAO<E> {
         return cursor;
     }
 
-    public void open2() {
-        try {
-            if (this.helper != null) {
-                this.helper.onOpen(this.db);
-            }
-        } catch (SQLException s) {
-            new Exception("Error with DB Open");
-        }
-    }
-
-    public void close2() {
-        try {
-            this.helper.close();
-        } catch (SQLException s) {
-            new Exception("Error with DB Close");
-        }
-    }
-
 
     public void delete(long id) {
-        //this.open();
-        String nome = type.getSimpleName().toLowerCase();
-        int delete = this.db.delete(nome, KEY_ROWID + "=" + id, null);
+        int delete = this.db.delete(getTableName(), KEY_ROWID + "=" + id, null);
         if (delete == 1) {
             System.out.println("Item excluido com sucesso.");
         }
         //this.close();
+    }
+
+    public void deleteAll() {
+        this.db.execSQL("DELETE FROM " + getTableName());
+        this.db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ = 0 WHERE NAME = '" + getTableName() + "';");
     }
 
     public SQLiteDatabase getDb() {

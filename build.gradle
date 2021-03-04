@@ -13,12 +13,19 @@ buildscript {
         // Google services
         classpath 'com.google.gms:google-services:4.3.4'
     }
+    
+    buildscript {
+        repositories {
+            maven { url "https://www.jitpack.io" }
+        }
+    }
 }
 
 allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
 }
 

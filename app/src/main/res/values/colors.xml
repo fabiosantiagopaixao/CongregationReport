@@ -11,9 +11,10 @@
 
     <!-- Others Colors -->
     <color name="colorPrimaryDark">#062556</color>
-    <color name="colorGrayDark">#99000000</color>
+    <color name="colorGrayDark">#1e1d1d</color>
+    <color name="colorLoading">#AD1E1D1D</color>
     <color name="colorGray">#99CFCACA</color>
-    <color name="colorGrayAccent">#99737070</color>
+    <color name="colorGrayAccent">#908d8e</color>
     <color name="colorBlack">#000000</color>
     <color name="transparente">#00000000</color>
     <color name="colorOrange">#F3A86E</color>
@@ -21,4 +22,7 @@
     <color name="colorYellow">#EDF883</color>
     <color name="colorRed">#E64040</color>
     <color name="colorWhite">#FFFFFF</color>
+
+
+    <color name="colorWhitet">#FFEAEA</color>
 </resources>

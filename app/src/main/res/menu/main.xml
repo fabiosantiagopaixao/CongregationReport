@@ -12,10 +12,19 @@
         android:orderInCategory="100"
         android:title="@string/logout"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_download"
+        android:orderInCategory="100"
+        android:title="@string/download"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_close"
         android:orderInCategory="100"
         android:title="@string/close"
         app:showAsAction="never" />
+
+
 
 </menu>
