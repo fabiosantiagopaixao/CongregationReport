@@ -22,8 +22,11 @@ import java.util.Date;
 
 import br.com.congregationreport.MainActivity;
 import br.com.congregationreport.R;
+import br.com.congregationreport.async.DownloadDataGoogleSheetTask;
 import br.com.congregationreport.async.SendData;
+import br.com.congregationreport.db.dao.AppDAO;
 import br.com.congregationreport.db.dao.AssistanceDAO;
+import br.com.congregationreport.models.App;
 import br.com.congregationreport.models.Assistance;
 import br.com.congregationreport.task.TaskRunner;
 import br.com.congregationreport.util.Util;
@@ -43,6 +46,8 @@ public class AddAssistanceActivity extends AppCompatActivity {
     private JSONObject data;
     private Assistance currentAssistance;
     private AssistanceDAO assistanceDAO;
+    private AppDAO appDAO;
+    private App app;
     private TaskRunner runner;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -71,6 +76,8 @@ public class AddAssistanceActivity extends AppCompatActivity {
             this.btnDate = (ImageButton) findViewById(R.id.btnDate);
             this.btnAdd = (Button) findViewById(R.id.btnAdd);
             this.type = UtilConstants.CREATE;
+            this.appDAO = new AppDAO(this);
+            this.app = this.appDAO.getApp();
 
             this.createTitle();
         } catch (Exception e) {
@@ -168,7 +175,11 @@ public class AddAssistanceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    runner.executeAsync(new SendData(AddAssistanceActivity.this, data));
+                    runner.executeAsync(new DownloadDataGoogleSheetTask(
+                            AddAssistanceActivity.this,
+                            app.getUrl(),
+                            data)
+                    );
                 }
             });
 

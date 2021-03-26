@@ -38,10 +38,12 @@ import br.com.congregationreport.R;
 import br.com.congregationreport.db.dao.AssistanceDAO;
 import br.com.congregationreport.db.dao.GroupDAO;
 import br.com.congregationreport.db.dao.PublisherDAO;
+import br.com.congregationreport.db.dao.QueryDAO;
 import br.com.congregationreport.db.dao.ReportDAO;
 import br.com.congregationreport.enumerator.EnumMonth;
 import br.com.congregationreport.models.AssistanceReport;
 import br.com.congregationreport.models.CongReport;
+import br.com.congregationreport.models.DataCongregation;
 import br.com.congregationreport.models.DataReportS21;
 import br.com.congregationreport.models.DataReportS88;
 import br.com.congregationreport.models.Group;
@@ -88,6 +90,7 @@ public class CongregationReportActivity extends AppCompatActivity {
     private PublisherDAO publisherDAO;
     private AssistanceDAO assistanceDAO;
     private GroupDAO groupDAO;
+    private QueryDAO queryDAO;
     private boolean openReportPublisher;
 
 
@@ -142,6 +145,7 @@ public class CongregationReportActivity extends AppCompatActivity {
             this.publisherDAO = UtilDataMemory.getPublisherDAO(this);
             this.assistanceDAO = UtilDataMemory.getAssistanceDAO(this);
             this.groupDAO = UtilDataMemory.getGroupDAO(this);
+            this.queryDAO = new QueryDAO(this);
 
             this.initListeners();
             this.createDataSpinner();
@@ -164,6 +168,9 @@ public class CongregationReportActivity extends AppCompatActivity {
                     break;
                 case R.id.rbS88:
                     this.createS88Report();
+                    break;
+                case R.id.rbSummary:
+                    this.createSummaryReport();
                     break;
             }
         } catch (Exception e) {
@@ -378,7 +385,6 @@ public class CongregationReportActivity extends AppCompatActivity {
     private void createBetelReport() {
         try {
             this.cleanS21();
-            this.rgOptions.setVisibility(View.VISIBLE);
             this.txtSubTitle.setVisibility(View.GONE);
             this.spMonth.setVisibility(View.VISIBLE);
             this.llInfoReportS21.setVisibility(View.GONE);
@@ -387,6 +393,7 @@ public class CongregationReportActivity extends AppCompatActivity {
             this.spPublisher.setVisibility(View.GONE);
             this.rgOptionsGroupS88.setVisibility(View.GONE);
             this.rgOptionsGroupS21.setVisibility(View.GONE);
+            this.rlFilter.setVisibility(View.VISIBLE);
             this.rlFilter.requestLayout();
 
             LayoutInflater layoutInflater =
@@ -394,6 +401,25 @@ public class CongregationReportActivity extends AppCompatActivity {
             View view = layoutInflater.inflate(R.layout.relative_layout, null);
 
             this.createReports(view);
+
+            this.rlData.addView(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createSummaryReport() {
+        try {
+            this.cleanS21();
+            this.txtSubTitle.setVisibility(View.GONE);
+            this.rlFilter.setVisibility(View.GONE);
+            this.rlFilter.requestLayout();
+
+            LayoutInflater layoutInflater =
+                    (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.relative_layout, null);
+
+            this.createSummary(view);
 
             this.rlData.addView(view);
         } catch (Exception e) {
@@ -469,6 +495,7 @@ public class CongregationReportActivity extends AppCompatActivity {
                 this.llInfoReportS21.requestLayout();
             }
 
+            this.rlFilter.setVisibility(View.VISIBLE);
             this.rlFilter.requestLayout();
 
             LayoutInflater layoutInflater =
@@ -850,7 +877,6 @@ public class CongregationReportActivity extends AppCompatActivity {
     private void createS88Report() {
         try {
             this.cleanS21();
-            this.rgOptions.setVisibility(View.VISIBLE);
             this.spMonth.setVisibility(View.GONE);
             this.txtSubTitle.setVisibility(View.GONE);
             this.llInfoReportS21.setVisibility(View.GONE);
@@ -858,6 +884,8 @@ public class CongregationReportActivity extends AppCompatActivity {
             this.rgOptionsGroupS21.setVisibility(View.GONE);
             this.ckbATotalMonth.setVisibility(View.GONE);
             this.rgOptionsGroupS88.setVisibility(View.VISIBLE);
+            this.rlFilter.setVisibility(View.VISIBLE);
+            this.rlFilter.requestLayout();
 
             LayoutInflater layoutInflater =
                     (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1324,7 +1352,7 @@ public class CongregationReportActivity extends AppCompatActivity {
 
                         // Name Group
                         TextView txtGroup = this.createTextView(
-                                "   "+ group.getName() + " (" + supGroup.getFullName() + ")",
+                                "   " + group.getName() + " (" + supGroup.getFullName() + ")",
                                 true,
                                 view.getResources().getColor(R.color.colorAccent),
                                 15,
@@ -1512,6 +1540,47 @@ public class CongregationReportActivity extends AppCompatActivity {
                 view.addView(linearLayout);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createSummary(View viewScreen) {
+        RelativeLayout relative = (RelativeLayout) viewScreen;
+        try {
+            DataCongregation dataCongregation = this.queryDAO.findDataCongregation();
+            LayoutInflater layoutInflater =
+                    (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.data_report_congregation, null);
+
+            // txts
+            TextView txtDeafSchool = view.findViewById(R.id.txtDeafSchool);
+            txtDeafSchool.setText(dataCongregation.getDeafSchool().toString());
+
+            TextView txtDeafBaptism = view.findViewById(R.id.txtDeafBaptism);
+            txtDeafBaptism.setText(dataCongregation.getDeafBaptism().toString());
+
+            TextView txtDeafNoBaptism = view.findViewById(R.id.txtDeafNoBaptism);
+            txtDeafNoBaptism.setText(dataCongregation.getDeafNoBaptism().toString());
+
+            TextView txtDeafRegularPioneer = view.findViewById(R.id.txtDeafRegularPioneer);
+            txtDeafRegularPioneer.setText(dataCongregation.getDeafRegularPioneer().toString());
+
+            TextView txtQtdPublishers = view.findViewById(R.id.txtQtdPublishers);
+            txtQtdPublishers.setText(dataCongregation.getPublishers().toString());
+
+            TextView txtPublishersBaptism = view.findViewById(R.id.txtPublishersBaptism);
+            txtPublishersBaptism.setText(dataCongregation.getPublishersBaptism().toString());
+
+            TextView txtQtdNoPublishers = view.findViewById(R.id.txtQtdNoPublishers);
+            txtQtdNoPublishers.setText(dataCongregation.getPublishersNoBaptism().toString());
+
+            TextView txtTotalRegularPioneer = view.findViewById(R.id.txtTotalRegularPioneer);
+            txtTotalRegularPioneer.setText(dataCongregation.getPublishersNoBaptism().toString());
+
+
+            //Add
+            relative.addView(view);
         } catch (Exception e) {
             e.printStackTrace();
         }

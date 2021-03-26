@@ -6,46 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".ui.congregationreports.CongregationReportActivity">
 
-    <RadioGroup
-        android:id="@+id/rgOptions"
+    <HorizontalScrollView
+        android:id="@+id/scrOptions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:padding="10dp">
-
-        <RadioButton
-            android:id="@+id/rbBetel"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioGroup
+            android:id="@+id/rgOptions"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:orientation="horizontal"
-            android:text="@string/label_betel"
-            android:textSize="20dp" />
+            android:visibility="visible"
+            android:padding="10dp">
 
-        <RadioButton
-            android:id="@+id/rbS21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/label_s21"
-            android:textSize="20dp" />
+            <RadioButton
+                android:id="@+id/rbBetel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:orientation="horizontal"
+                android:text="@string/label_betel"
+                android:textSize="20dp" />
 
-        <RadioButton
-            android:id="@+id/rbS88"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/label_s88"
-            android:textSize="20dp" />
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/rbS21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/label_s21"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/rbS88"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/label_s88"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/rbSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/summary_congregation"
+                android:textSize="20dp" />
+        </RadioGroup>
+    </HorizontalScrollView>
 
 
     <RelativeLayout
         android:id="@+id/rlFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rgOptions"
+        android:layout_below="@+id/scrOptions"
         android:layout_margin="10dp"
         android:background="@drawable/my_custom_background">
 

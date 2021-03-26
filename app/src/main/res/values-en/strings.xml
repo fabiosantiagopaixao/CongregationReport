@@ -246,4 +246,14 @@
     <string name="text_example">Example</string>
     <string name="text_edit_html_pdf">Edit HTML Pdf</string>
     <string name="text_create_pdf">Create PDF</string>
+    <!-- New -->
+    <string name="summary_congregation">Summary of the Congregation</string>
+    <string name="deaf_school">Amount of Deaf in School</string>
+    <string name="deaf_baptism">Amount of Deaf Baptisms</string>
+    <string name="deaf_no_baptism">Amount Unbaptized Deaf</string>
+    <string name="deaf_regular_pioneer">Amount Regular Deaf Pioneers</string>
+    <string name="qtd_publishers">Amount Publicadores</string>
+    <string name="publishers_baptism">Amount Publishers</string>
+    <string name="publishers_no_baptism">Amount Non-Baptized Publishers</string>
+    <string name="total_regular_pioneer">Amount Regular Pioneers</string>
 </resources>

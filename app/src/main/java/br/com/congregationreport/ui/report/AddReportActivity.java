@@ -19,7 +19,10 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 import br.com.congregationreport.R;
+import br.com.congregationreport.async.DownloadDataGoogleSheetTask;
 import br.com.congregationreport.async.SendData;
+import br.com.congregationreport.db.dao.AppDAO;
+import br.com.congregationreport.models.App;
 import br.com.congregationreport.models.Publisher;
 import br.com.congregationreport.models.Report;
 import br.com.congregationreport.task.TaskRunner;
@@ -50,6 +53,7 @@ public class AddReportActivity extends AppCompatActivity {
     private Publisher publisher;
     private TaskRunner runner;
     private Report currentReport;
+    private AppDAO appDAO;
 
 
     @Override
@@ -86,6 +90,7 @@ public class AddReportActivity extends AppCompatActivity {
             this.btnPreachingFifteenMinLess = (Button) this.findViewById(R.id.btnPreachingFifteenMinLess);
             this.btnAdd = (Button) this.findViewById(R.id.btnAdd);
             this.type = UtilConstants.CREATE;
+            this.appDAO = new AppDAO(this);
 
             if (this.publisher.isPublisherBaptized()) {
                 this.rlAuxiliaryPioneer.setVisibility(View.VISIBLE);
@@ -190,7 +195,7 @@ public class AddReportActivity extends AppCompatActivity {
                 text.setText(this.getResources().getString(R.string.msg_is_information_correct));
             }
 
-
+            final App app = this.appDAO.getApp();
             // Fecha o dialog
             Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
             btnOk.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +203,9 @@ public class AddReportActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     dialog.dismiss();
 
-                    runner.executeAsync(new SendData(AddReportActivity.this, data));
+
+                    // Before saving, downloading new data
+                    runner.executeAsync(new DownloadDataGoogleSheetTask(AddReportActivity.this, app.getUrl(), data));
                 }
             });
 

@@ -33,6 +33,7 @@ import br.com.congregationreport.models.Setting;
 import br.com.congregationreport.service.NotificationService;
 import br.com.congregationreport.task.TaskRunner;
 import br.com.congregationreport.ui.assistance.AddAssistanceActivity;
+import br.com.congregationreport.ui.report.AddReportActivity;
 import br.com.congregationreport.util.Util;
 import br.com.congregationreport.util.UtilConstants;
 import br.com.congregationreport.util.UtilDataMemory;
@@ -212,7 +213,11 @@ public class MainActivity extends AppCompatActivity {
             String password = this.txtPassword.getText().toString();
 
             // Senda update
-            this.runner.executeAsync(new SendData(MainActivity.this, createDataJSON(password)));
+            this.runner.executeAsync(new DownloadDataGoogleSheetTask(
+                    MainActivity.this,
+                    app.getUrl(),
+                    createDataJSON(password))
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }

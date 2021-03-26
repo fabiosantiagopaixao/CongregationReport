@@ -41,14 +41,16 @@ public class SendData extends BaseTask {
     private PublisherDAO publisherDAO;
     private LoginDAO loginDAO;
     private App app;
+    private String url;
 
-    public SendData(Context context, JSONObject data) {
+    public SendData(Context context, String url, JSONObject data) {
         this.context = context;
         this.data = data;
         try {
             this.type = data.getString("type");
         } catch (JSONException e) {
         }
+        this.url = url;
         this.appDAO = UtilDataMemory.getLocalDAO(this.context);
         this.publisherDAO = UtilDataMemory.getPublisherDAO(this.context);
         this.loginDAO = new LoginDAO(this.context);
@@ -77,9 +79,6 @@ public class SendData extends BaseTask {
     @Override
     public Object callInBackground() throws Exception {
         try {
-            this.app = this.appDAO.getApp();
-            String url = this.app.getUrl();
-
             // Save local
             String id;
             switch (this.data.getString("model")) {
@@ -107,7 +106,7 @@ public class SendData extends BaseTask {
 
             HttpRequestUtil httpRequest = new HttpRequestUtil(
                     this.activity,
-                    url,
+                    this.url,
                     "POST",
                     data.toString(),
                     true,

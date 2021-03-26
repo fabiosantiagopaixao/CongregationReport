@@ -245,5 +245,15 @@
     <string name="text_create_html_pdf">Criar PDF a partir de HTML</string>
     <string name="text_example">Exemplo</string>
     <string name="text_edit_html_pdf">Editar HTML Pdf</string>
-    <string name="text_create_pdf">Crear PDF</string>
+    <string name="text_create_pdf">Criar PDF</string>
+    <!-- New -->
+    <string name="summary_congregation">Resumo da Congregação</string>
+    <string name="deaf_school">Qtd. Surdos na Escola</string>
+    <string name="deaf_baptism">Qtd. Surdos Batizados</string>
+    <string name="deaf_no_baptism">Qtd. Surdos não Batizados</string>
+    <string name="deaf_regular_pioneer">Qtd. Surdos Pioneiros Regulares</string>
+    <string name="qtd_publishers">Qtd. Publicadores</string>
+    <string name="publishers_baptism">Qtd. Publicadores Batizados</string>
+    <string name="publishers_no_baptism">Qtd. Publicadores não Batizados</string>
+    <string name="total_regular_pioneer">Qtd. Pioneiros Regulares</string>
 </resources>

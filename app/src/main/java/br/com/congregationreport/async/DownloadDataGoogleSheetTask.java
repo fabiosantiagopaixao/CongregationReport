@@ -31,6 +31,7 @@ import br.com.congregationreport.models.Publisher;
 import br.com.congregationreport.models.Report;
 import br.com.congregationreport.models.Setting;
 import br.com.congregationreport.task.BaseTask;
+import br.com.congregationreport.task.TaskRunner;
 import br.com.congregationreport.util.HttpRequestUtil;
 import br.com.congregationreport.util.Util;
 import br.com.congregationreport.util.UtilDataMemory;
@@ -51,6 +52,8 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
     private LoginDAO loginDAO;
     private AssistanceDAO assistanceDAO;
     private String message;
+    private JSONObject data;
+    private TaskRunner runner;
 
     public DownloadDataGoogleSheetTask(Context context, String url) {
         this.context = context;
@@ -64,6 +67,23 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
         this.loginDAO = new LoginDAO(this.context);
         this.assistanceDAO = UtilDataMemory.getAssistanceDAO(this.context);
         this.activity = (Activity) this.context;
+        this.message = null;
+    }
+
+    public DownloadDataGoogleSheetTask(Context context, String url, JSONObject data) {
+        this.context = context;
+        this.url = url;
+        this.data = data;
+        this.appDAO = UtilDataMemory.getLocalDAO(this.context);
+        this.appDAO = UtilDataMemory.getLocalDAO(this.context);
+        this.settingDAO = new SettingDAO(this.context);
+        this.groupDAO = UtilDataMemory.getGroupDAO(this.context);
+        this.publisherDAO = UtilDataMemory.getPublisherDAO(this.context);
+        this.reportDAO = UtilDataMemory.getReportDAO(this.context);
+        this.loginDAO = new LoginDAO(this.context);
+        this.assistanceDAO = UtilDataMemory.getAssistanceDAO(this.context);
+        this.activity = (Activity) this.context;
+        this.runner = new TaskRunner();
         this.message = null;
     }
 
@@ -106,21 +126,25 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
     public void setDataAfterLoading(Object object) {
         Integer result = (Integer) object;
         if (result >= 200 && result < 300) {
-            // Chama a tela de login
-            Login login = this.loginDAO.getDataLogin();
-            if (login == null) {
-                Intent it = new Intent(((Activity) this.context), LoginActivity.class);
-                ((Activity) this.context).startActivity(it);
-            } else {
-                Publisher publisher = publisherDAO.findPublisherByUser(login.getUserName());
-                UtilDataMemory.publisher = publisher;
-                if (publisher == null || !publisher.getPassword().equals(login.getPassword())) {
-                    loginDAO.delete(login.getId());
-                    UtilDataMemory.publisher = null;
+            if (data == null) {
+                // Chama a tela de login
+                Login login = this.loginDAO.getDataLogin();
+                if (login == null) {
+                    Intent it = new Intent(((Activity) this.context), LoginActivity.class);
+                    ((Activity) this.context).startActivity(it);
+                } else {
+                    Publisher publisher = publisherDAO.findPublisherByUser(login.getUserName());
+                    UtilDataMemory.publisher = publisher;
+                    if (publisher == null || !publisher.getPassword().equals(login.getPassword())) {
+                        loginDAO.delete(login.getId());
+                        UtilDataMemory.publisher = null;
+                    }
+                    UtilDataMemory.setting = settingDAO.getSetting();
+                    Intent it = new Intent(((Activity) this.context), MainActivity.class);
+                    ((Activity) this.context).startActivity(it);
                 }
-                UtilDataMemory.setting = settingDAO.getSetting();
-                Intent it = new Intent(((Activity) this.context), MainActivity.class);
-                ((Activity) this.context).startActivity(it);
+            } else {
+                this.runner.executeAsync(new SendData(this.context, this.url, this.data));
             }
         } else {
 
@@ -139,7 +163,9 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
         }
 
         // Fecha a tela
-        this.layoutLoading.setVisibility(View.GONE);
+        if (data == null) {
+            this.layoutLoading.setVisibility(View.GONE);
+        }
     }
 
     private boolean createDataBase() {

@@ -18,19 +18,19 @@ import java.net.URLConnection;
 
 public class HttpRequestUtil {
 
-    private Context context;
-    private String url;
-    private String type;
-    private boolean doInput;
-    private boolean doOutput;
-    private String mimeType;
-    private String accept;
-    private String response;
+    private final Context context;
+    private final String url;
+    private final String type;
+    private final boolean doInput;
+    private final boolean doOutput;
+    private final String mimeType;
+    private final String accept;
+    private final String response;
     private String result;
     private String resultErro;
     private int resultCode;
     private String resultMessage;
-    private static String DELETE = "DELETE";
+    private static final String DELETE = "DELETE";
     public static int NOT_FOUND = 404;
 
     /**

@@ -16,6 +16,7 @@ public class GenericDAO<E> {
     private DataBaseHelper helper;
     private Class<E> type;
     public static final String KEY_ROWID = "id";
+    private Context context;
 
     public GenericDAO(Context context, Class<E> type) {
         this.type = type;
@@ -23,6 +24,7 @@ public class GenericDAO<E> {
         if (db == null) {
             db = helper.getWritableDatabase();
         }
+        this.context = context;
     }
 
     public Cursor findFilterByEq(Map<String[], String> filtros, String order) {
@@ -232,4 +234,7 @@ public class GenericDAO<E> {
         return helper;
     }
 
+    public Context getContext() {
+        return context;
+    }
 }

@@ -246,4 +246,14 @@
     <string name="text_example">Example</string>
     <string name="text_edit_html_pdf">Edit HTML Pdf</string>
     <string name="text_create_pdf">Crear PDF</string>
+    <!-- New -->
+    <string name="summary_congregation">Resumen de la Congregación</string>
+    <string name="deaf_school">Qtd. Sordos en la Escuela</string>
+    <string name="deaf_baptism">Qtd. Sordos Bautizados</string>
+    <string name="deaf_no_baptism">Qtd. Sordos no Batizados</string>
+    <string name="deaf_regular_pioneer">Qtd. Sordos Precursores Regulares</string>
+    <string name="qtd_publishers">Qtd. Publicadores</string>
+    <string name="publishers_baptism">Qtd. Publicadores Bautizados</string>
+    <string name="publishers_no_baptism">Qtd. Publicadores no Bautizados</string>
+    <string name="total_regular_pioneer">Qtd. Precursores Regulares</string>
 </resources>
