@@ -192,6 +192,7 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
                     saveReport = false,
                     saveAssistance = false;
             if (appBD == null) {
+                appBD = new App();
                 currentApp.setUrl(this.url);
                 currentApp.setFirstRun(true);
                 baixarDados = true;
@@ -230,7 +231,7 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
 
                 boolean saved = saveSetting && saveSaveGroup && savePublisher && saveReport && saveAssistance;
                 if (saved) {
-                    if (appBD == null) {
+                    if (appBD == null || appBD.getId() == null) {
                         this.appDAO.save(currentApp);
                     } else if (dateNow.getTime() > appBD.getLastUpdated().getTime()) {
                         appBD.setLastUpdated(dateNow);

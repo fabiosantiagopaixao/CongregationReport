@@ -1,11 +1,14 @@
 package br.com.congregationreport.ui.congregationreports;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,6 +62,8 @@ import br.com.congregationreport.util.UtilConstants;
 import br.com.congregationreport.util.UtilDataMemory;
 import br.com.congregationreport.util.UtilDateHour;
 import br.com.congregationreport.util.UtilFormatte;
+import br.com.congregationreport.util.UtilHtml;
+import br.com.congregationreport.util.UtilPDF;
 
 public class CongregationReportActivity extends AppCompatActivity {
 
@@ -92,6 +97,7 @@ public class CongregationReportActivity extends AppCompatActivity {
     private GroupDAO groupDAO;
     private QueryDAO queryDAO;
     private boolean openReportPublisher;
+    private RelativeLayout layoutLoading;
 
 
     @Override
@@ -481,6 +487,9 @@ public class CongregationReportActivity extends AppCompatActivity {
                     case R.id.rdbRegular:
                         label = this.getResources().getString(R.string.number_reports_regular);
                         break;
+                    case R.id.rdbSpecial:
+                        label = this.getResources().getString(R.string.number_reports_special);
+                        break;
                     case R.id.rdbDeaf:
                         label = this.getResources().getString(R.string.number_reports_deafs);
                         break;
@@ -855,7 +864,7 @@ public class CongregationReportActivity extends AppCompatActivity {
                 String notes = report.getNotes().isEmpty() ? creditText : report.getNotes() + " " + creditText;
                 linearLayout = this.createLinearLayout();
                 TextView txtNotes = this.createTextViewS21(
-                        group ? "" : notes,
+                        notes,
                         false,
                         true,
                         colorText,
@@ -1008,7 +1017,6 @@ public class CongregationReportActivity extends AppCompatActivity {
                     } else {
                         firstAssistance = new AssistanceReport();
                     }
-
                 } else {
                     totalFirstYear = totalFirstYear + firstAssistance.getAverage();
                     totalReportsFirst++;
@@ -1153,7 +1161,7 @@ public class CongregationReportActivity extends AppCompatActivity {
                 linearLayout = this.createLinearLayout();
                 txtHours = this.createTextViewS21(
                         firstAssistance.getAverage() == 0 ? ""
-                                : UtilFormatte.getFormate(previsousAssistance.getAverage()),
+                                : UtilFormatte.getFormate(firstAssistance.getAverage()),
                         bold,
                         true,
                         colorText,
@@ -1168,6 +1176,8 @@ public class CongregationReportActivity extends AppCompatActivity {
                 // Add line
                 tableDataS88.addView(tableRow);
             }
+
+
             if (totalPreviousYear > 0) {
                 Float previousResult = totalPreviousYear / totalReportsPrevious;
                 txtPreviousYear.setText(previousResult == 0f ? "" : UtilFormatte.getFormate(previousResult));
@@ -1645,16 +1655,15 @@ public class CongregationReportActivity extends AppCompatActivity {
 
     private class LoadingData extends BaseTask {
 
-        private RelativeLayout layoutLoading;
         private TextView txtMessage;
         private Activity activity;
 
         @Override
         public void setUiForLoading() {
             this.activity = CongregationReportActivity.this;
-            this.layoutLoading = (RelativeLayout) this.activity.findViewById(
+            layoutLoading = (RelativeLayout) this.activity.findViewById(
                     R.id.layoutLoading);
-            this.layoutLoading.setVisibility(View.VISIBLE);
+            layoutLoading.setVisibility(View.VISIBLE);
             this.txtMessage = (TextView) this.activity.findViewById(
                     R.id.txtMessage);
             this.txtMessage.setText(this.activity.getResources().getString(R.string.msg_loading_data));
@@ -1697,7 +1706,7 @@ public class CongregationReportActivity extends AppCompatActivity {
                 toast.show();
                 cleanDataScreen();
             }
-            this.layoutLoading.setVisibility(View.GONE);
+            layoutLoading.setVisibility(View.GONE);
         }
 
         private void findDataS21() {
@@ -1716,7 +1725,8 @@ public class CongregationReportActivity extends AppCompatActivity {
 
                             Map<String, Report> reports = reportDAO.findReportsByPublisherAndYear(
                                     publisher,
-                                    currentYear
+                                    currentYear,
+                                    0
                             );
 
                             DataReportS21 data = new DataReportS21(publisher, reports);
@@ -1728,7 +1738,8 @@ public class CongregationReportActivity extends AppCompatActivity {
                     } else {
                         Map<String, Report> reports = reportDAO.findReportsByPublisherAndYear(
                                 publisher,
-                                yearSelected
+                                yearSelected,
+                                0
                         );
 
                         DataReportS21 data = new DataReportS21(publisher, reports);
@@ -1750,6 +1761,9 @@ public class CongregationReportActivity extends AppCompatActivity {
                         case R.id.rdbRegular:
                             this.findPublisher(CongReport.REGULAR);
                             break;
+                        case R.id.rdbSpecial:
+                            this.findPublisher(CongReport.SPECIAL);
+                            break;
                         case R.id.rdbDeaf:
                             this.findPublisher(CongReport.DEAF);
                             break;
@@ -1769,7 +1783,8 @@ public class CongregationReportActivity extends AppCompatActivity {
                     // Find Reports
                     Map<String, Report> reports = reportDAO.findReportsByPublisherAndYear(
                             publisher,
-                            yearSelected
+                            yearSelected,
+                            0
                     );
 
                     DataReportS21 data = new DataReportS21(publisher, reports);
@@ -1788,6 +1803,7 @@ public class CongregationReportActivity extends AppCompatActivity {
                 types.add(CongReport.PUBLISHER);
                 types.add(CongReport.DEAF);
                 types.add(CongReport.AUXILIARY);
+                //types.add(CongReport.SPECIAL);
                 types.add(CongReport.REGULAR);
 
                 for (Integer type : types) {
@@ -1826,7 +1842,8 @@ public class CongregationReportActivity extends AppCompatActivity {
                     // Find Reports
                     Map<String, Report> reports = reportDAO.findReportsByPublisherAndYear(
                             publisher,
-                            yearSelected
+                            yearSelected,
+                            type
                     );
 
                     DataReportS21 data = new DataReportS21(publisher, reports);
@@ -1902,25 +1919,226 @@ public class CongregationReportActivity extends AppCompatActivity {
     }
 
     private void print() {
-        // Cria o dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_message);
-        String msg = this.getString(R.string.msg_function_not_available);
 
-        // Pega os componentes
-        TextView text = (TextView) dialog.findViewById(R.id.txtMessage);
-        text.setText(msg);
+        switch (this.rgOptions.getCheckedRadioButtonId()) {
+            case R.id.rbS21:
+                this.printReportS21();
+                break;
+            case R.id.rbS88:
+                this.printReportS88();
+                break;
+            default:
+                // Cria o dialog
+                final Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.dialog_message);
+                String msg = this.getString(R.string.msg_function_not_available);
 
-        // Executa a ação
-        Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+                // Pega os componentes
+                TextView text = (TextView) dialog.findViewById(R.id.txtMessage);
+                text.setText(msg);
+
+                // Executa a ação
+                Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                break;
+        }
+
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void printReportS21() {
+        try {
+            this.runner.executeAsync(new GenerateDataForPrint(CongReport.PRINT_S21));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void printReportS88() {
+        try {
+            this.runner.executeAsync(new GenerateDataForPrint(CongReport.PRINT_S88));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private class GenerateDataForPrint extends BaseTask {
+
+        private TextView txtMessage;
+        private Activity activity;
+        private String html;
+        private int typePrint;
+        private RelativeLayout layoutLoading;
+
+
+        public GenerateDataForPrint(int typePrint) {
+            this.activity = (Activity) CongregationReportActivity.this;
+            this.typePrint = typePrint;
+        }
+
+        @Override
+        public void setUiForLoading() {
+            layoutLoading = (RelativeLayout) this.activity.findViewById(
+                    R.id.layoutLoading);
+            this.txtMessage = (TextView) this.activity.findViewById(
+                    R.id.txtMessage);
+            this.txtMessage.setText(this.activity.getResources().getString(R.string.msg_generating_data_printing));
+            layoutLoading.requestLayout();
+            layoutLoading.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public Object callInBackground() {
+            boolean generated = false;
+            try {
+                switch (this.typePrint) {
+                    case CongReport.PRINT_S21:
+                        generated = this.generatingDataS21();
+                        break;
+                    case CongReport.PRINT_S88:
+                        generated = this.generatingDataS88();
+                        break;
+                }
+
+            } catch (Exception e) {
+                return Util.ERROR;
+            }
+            return generated ? Util.OK : Util.ERROR;
+        }
+
+
+        @Override
+        public void setDataAfterLoading(Object object) {
+            Integer result = (Integer) object;
+            if (result == Util.OK) {
+                printData();
+            }
+            if (result == Util.ERROR) {
+                layoutLoading.setVisibility(View.GONE);
+                Toast toast = Toast.makeText(
+                        this.activity,
+                        this.activity.getResources().getString(R.string.msg_generating_data_print_error),
+                        Toast.LENGTH_LONG
+                );
+                toast.show();
+            }
+        }
+
+
+        private boolean generatingDataS21() {
+            try {
+                String topHtml = UtilHtml.getReport21PageTop();
+
+                String pages = "";
+                int numberPage = 1;
+                Float resultPage = listDataS21.size() / 2f;
+                Integer totalPage = resultPage.toString().contains(".5")
+                        ? Integer.parseInt(
+                        resultPage.toString().replace(".5", "")
+                ) + 1 : Integer.parseInt(
+                        resultPage.toString().replace(".0", ""));
+
+                for (int i = 0; i < listDataS21.size(); i += 2) {
+
+                    // Init page
+                    String page = UtilHtml.getReportS21PageInit();
+
+
+                    // Add Content 1
+                    DataReportS21 reportS21 = listDataS21.get(i);
+                    String content = UtilHtml.getReportS21ContentHtml(this.activity, reportS21, ckbATotalMonth.isChecked(), yearSelected);
+                    page = page + content;
+
+                    int secondValue = i + 1;
+                    if (secondValue < listDataS21.size()) {
+                        DataReportS21 reportS21Second = listDataS21.get(secondValue);
+                        String contentSecond = UtilHtml.getReportS21ContentHtml(this.activity, reportS21Second, ckbATotalMonth.isChecked(), yearSelected);
+                        page = page + contentSecond;
+                    }
+
+                    // End Page
+                    String pageEnd = UtilHtml.getPageEnd(numberPage + "/" + totalPage);
+                    page = page + pageEnd;
+
+                    // Add page to pages
+                    pages = pages + page;
+
+
+                    numberPage++;
+                }
+
+
+                String bottom = "\n" +
+                        "\t</body>\n" +
+                        "</html>";
+
+                this.html = topHtml + pages + bottom;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+
+        private boolean generatingDataS88() {
+            try {
+                String topHtml = UtilHtml.getReportS88PageTop(this.activity.getString(R.string.label_s88_title));
+
+
+                String boxContent1 = UtilHtml.getReportS88Content(
+                        this.activity,
+                        listDataS88.get(0),
+                        Integer.parseInt(yearSelected),
+                        false
+                );
+
+                String boxContent2 = UtilHtml.getReportS88Content(
+                        this.activity,
+                        listDataS88.get(1),
+                        Integer.parseInt(yearSelected),
+                        true
+                );
+
+                String bottom = "</div>\n" +
+                        "\t</body>\n" +
+                        "</html>";
+
+                this.html = topHtml + boxContent1 + boxContent2 + bottom;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+
+        private void printData() {
+            try {
+                UtilPDF.generatePdfFromHtlm(
+                        this.activity,
+                        this.html
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (this.layoutLoading != null) {
+            this.layoutLoading.setVisibility(View.GONE);
+        }
+    }
 
 }

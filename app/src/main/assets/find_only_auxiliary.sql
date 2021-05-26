@@ -6,7 +6,6 @@ SELECT
     publisher.birth,
     publisher.baptism,
     publisher.cell_phone,
-    publisher.phones,
     publisher.email,
     publisher.city,
     publisher.neighborhood,
@@ -34,6 +33,6 @@ SELECT
 
 FROM publisher
 INNER JOIN report ON publisher.id = report.id_publisher
-WHERE report.auxiliary_pioneer = 1
+WHERE report.auxiliary_pioneer = 1 AND publisher.changed_congregation = 0
 
 ORDER BY publisher.name ASC

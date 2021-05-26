@@ -51,6 +51,7 @@ public class Publisher {
     private boolean jehovahsWitness2;
     private String contactPhone2;
     private String contactAddress2;
+    private boolean changedCongregation;
 
 
     public static String TABLE_NAME = "publisher";
@@ -95,7 +96,8 @@ public class Publisher {
             + " contact_note2 text,"
             + " contact_is_jehovahs_witness2 boolean,"
             + " contact_phone2 text,"
-            + " contact_address2 text"
+            + " contact_address2 text,"
+            + " changed_congregation boolean"
             + ");";
     public static String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
@@ -319,6 +321,11 @@ public class Publisher {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            try {
+                publisher.setChangedCongregation(jsonObject.getBoolean("changed_congregation"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -369,6 +376,7 @@ public class Publisher {
             object.put("contact_is_jehovahs_witness2", publisher.isJehovahsWitness2());
             object.put("contact_phone2", publisher.getContactPhone2());
             object.put("contact_address2", publisher.getContactAddress2());
+            object.put("changed_congregation", publisher.isChangedCongregation());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -408,6 +416,7 @@ public class Publisher {
             publisher.setUserName(newDataPublisher.getUserName());
             publisher.setPassword(newDataPublisher.getPassword());
             publisher.setNotes(newDataPublisher.getNotes());
+            publisher.setChangedCongregation(newDataPublisher.isChangedCongregation());
             // Contact Data 1
             publisher.setContactName1(newDataPublisher.getContactName1());
             publisher.setContactNote1(newDataPublisher.getContactNote1());
@@ -804,6 +813,15 @@ public class Publisher {
     }
 
     public String getFullName() {
-        return this.name + " " + this.lastName;
+        String s = this.lastName == null ? "" : " " + this.lastName;
+        return this.name + s;
+    }
+
+    public boolean isChangedCongregation() {
+        return changedCongregation;
+    }
+
+    public void setChangedCongregation(boolean changedCongregation) {
+        this.changedCongregation = changedCongregation;
     }
 }

@@ -48,7 +48,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="@string/label_date_s21"
@@ -75,7 +75,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="@string/label_batism_s21"

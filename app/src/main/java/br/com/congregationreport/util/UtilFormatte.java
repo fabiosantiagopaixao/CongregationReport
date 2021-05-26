@@ -26,7 +26,8 @@ public class UtilFormatte {
             if (valor < 1) {
                 formatter = new DecimalFormat("##0.###");
             }
-            if (valor.toString().contains(".0") || valor.toString().contains(".00")) {
+
+             if (valor.toString().endsWith(".0") || valor.toString().endsWith(".00")) {
                 return valor.toString().replace(".0", "").replace(".00", "");
             }
 

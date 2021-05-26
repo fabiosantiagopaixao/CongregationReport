@@ -6,17 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.congregationreports.CongregationReportActivity">
 
+
     <HorizontalScrollView
         android:id="@+id/scrOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RadioGroup
             android:id="@+id/rgOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="visible"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="visible">
 
             <RadioButton
                 android:id="@+id/rbBetel"
@@ -52,7 +54,6 @@
                 android:textSize="20dp" />
         </RadioGroup>
     </HorizontalScrollView>
-
 
     <RelativeLayout
         android:id="@+id/rlFilter"
@@ -151,6 +152,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_regular_pioneer" />
+
+                <RadioButton
+                    android:id="@+id/rdbSpecial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_group_special" />
 
                 <RadioButton
                     android:id="@+id/rdbDeaf"
@@ -263,8 +270,6 @@
             android:textColor="@color/colorGrayDark"
             android:textSize="18dp" />
     </LinearLayout>
-
-
 
 
     <include layout="@layout/loading" />

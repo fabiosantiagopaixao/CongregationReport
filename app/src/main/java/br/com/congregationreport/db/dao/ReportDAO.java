@@ -94,7 +94,7 @@ public class ReportDAO extends GenericDAO<Report> {
         return report;
     }
 
-    public Map<String, Report> findReportsByPublisherAndYear(Publisher publisher, String year) {
+    public Map<String, Report> findReportsByPublisherAndYear(Publisher publisher, String year, int type) {
         Map<String, Report> reports = new HashMap<>();
 
         // Pega o cursor com os dados
@@ -119,7 +119,19 @@ public class ReportDAO extends GenericDAO<Report> {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Report report = readRow(cursor);
-            reports.put(report.getMonth(), report);
+
+
+            switch (type) {
+                case CongReport.AUXILIARY:
+                    if (report.isAuxiliaryPioneer()) {
+                        reports.put(report.getMonth(), report);
+                    }
+                    break;
+                default:
+                    reports.put(report.getMonth(), report);
+                    break;
+            }
+
             cursor.moveToNext();
         }
         // Fecha o cursor

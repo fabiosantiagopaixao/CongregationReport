@@ -134,16 +134,18 @@
     <string name="number_reports">Cantidad de Informes</string>
     <string name="number_reports_auxiliary">Cantidad de Precursores Auxiliares</string>
     <string name="number_reports_regular">Cantidad de Precursores Regulares</string>
+    <string name="number_reports_special">Quantidade de Precursores Especiais</string>
     <string name="number_reports_deafs">Cantidad de Sordos</string>
     <string name="number_reports_publishers">Cantidad de Publicadores</string>
     <string name="publications_print">Publicaciones (impresas y electrónicas)</string>
     <string name="showed_videos">Presentaciones de videos</string>
     <string name="label_totals">Totales</string>
     <string name="label_total">Total</string>
-    <string name="label_regular_pioneer">Precursores regulares</string>
+    <string name="label_regular_pioneer">Precursores Regulares</string>
     <string name="label_active_publishers">Publicadores activos</string>
     <string name="label_assistance_average">Promedio de asistencia a las reuniones del fin de semana</string>
     <string name="label_no_auxiliary">No hay precursores auxiliares este mes</string>
+    <string name="report_s21_title">S-21 De los Publicadores de la Congregación</string>
     <string name="label_s21_title">REGISTRO DE PUBLICADOR DE LA CONGREGACIÓN</string>
     <string name="label_name_s21">Nombre:</string>
     <string name="label_date_s21">Fecha de nacimiento:</string>
@@ -177,6 +179,7 @@
     <string name="label_group_deaf">Publicadores sordos</string>
     <string name="label_group_regular_auxiliary">Precursores auxiliares</string>
     <string name="label_group_regular_special">Precursores regulares y especiales</string>
+    <string name="label_group_special">Precursores Especiales</string>
     <string name="menu_item_print">Imprimir</string>
     <string name="label_s88_title">REGISTRO DE ASISTENCIA A LAS REUNIONES DE CONGREGACIÓN</string>
     <string name="label_s88_weekend">Reunión del fin de semana</string>

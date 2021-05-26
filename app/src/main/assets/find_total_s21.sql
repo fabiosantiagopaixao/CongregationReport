@@ -13,13 +13,14 @@ SELECT
 	report.auxiliary_pioneer,
 	report.auxiliary_pioneer_type,
 	report.preaching_fifteen_min_less,
-	report.notes
+    "# " || COUNT(*) AS notes
 	
 FROM report
 INNER JOIN publisher ON publisher.id = report.id_publisher
 
 WHERE 
-	report.year = $P{YEAR} 
+	report.year = $P{YEAR}
+	AND publisher.changed_congregation = 0
 	$P{FILTER}
 	
 GROUP BY report.month

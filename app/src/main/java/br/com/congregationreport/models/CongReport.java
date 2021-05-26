@@ -16,7 +16,10 @@ public class CongReport {
     public static final int PUBLISHER = 4;
     public static final int AUXILIARY = 5;
     public static final int REGULAR = 6;
-    public static final int DEAF = 7;
+    public static final int SPECIAL = 7;
+    public static final int DEAF = 8;
+    public static final int PRINT_S21 = 0;
+    public static final int PRINT_S88 = 1;
 
     public CongReport() {
         this.reports = 0;

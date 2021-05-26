@@ -134,16 +134,18 @@
     <string name="number_reports">Number of Reports</string>
     <string name="number_reports_auxiliary">Number of Auxiliary Precursors</string>
     <string name="number_reports_regular">Number of Regular Precursors</string>
+    <string name="number_reports_special">Quantity of Special Precursors</string>
     <string name="number_reports_deafs">Number of Deaf</string>
     <string name="number_reports_publishers">Number of Publishers</string>
     <string name="publications_print">Publications (print and electronic)</string>
     <string name="showed_videos">Video Presentations</string>
     <string name="label_totals">Totals</string>
     <string name="label_total">Total</string>
-    <string name="label_regular_pioneer">Regular pioneers</string>
+    <string name="label_regular_pioneer">Regular Pioneers</string>
     <string name="label_active_publishers">Active publishers</string>
     <string name="label_assistance_average">Average asistance at weekend meetings</string>
     <string name="label_no_auxiliary">There are no auxiliary pioneers this month</string>
+    <string name="report_s21_title">S-21 From the Congregations Publishers</string>
     <string name="label_s21_title">REGISTRATION OF PUBLISHER OF THE CONGREGATION</string>
     <string name="label_name_s21">Name:</string>
     <string name="label_date_s21">Date of birth:</string>
@@ -177,6 +179,7 @@
     <string name="label_group_deaf">Deaf publishers</string>
     <string name="label_group_regular_auxiliary">Auxiliary pioneers</string>
     <string name="label_group_regular_special">Regular and special pioneers</string>
+    <string name="label_group_special">Special Pioneer</string>
     <string name="menu_item_print">To print</string>
     <string name="label_s88_title">REGISTRATION OF ATTENDANCE TO CONGREGATION MEETINGS</string>
     <string name="label_s88_weekend">Weekend meeting</string>

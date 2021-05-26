@@ -181,6 +181,11 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         tipoColuna[0] = "STRING";
         tipoColuna[1] = "group_congregation";
         filtros.put(tipoColuna, group);
+        //
+        tipoColuna = new String[2];
+        tipoColuna[0] = "BOOLEAN";
+        tipoColuna[1] = "changed_congregation";
+        filtros.put(tipoColuna, "0");
         Cursor cursor = findFilterByEq(filtros, "name ASC");
 
         // Pega o primeiro elemento
@@ -201,7 +206,14 @@ public class PublisherDAO extends GenericDAO<Publisher> {
     public List<Publisher> findPublishers() {
         List<Publisher> publishers = new ArrayList<>();
 
-        Cursor cursor = findAll("name ASC");
+        // Pega o cursor com os dados
+        Map<String[], String> filtros = new HashMap<>();
+        String[] tipoColuna = new String[2];
+        tipoColuna = new String[2];
+        tipoColuna[0] = "BOOLEAN";
+        tipoColuna[1] = "changed_congregation";
+        filtros.put(tipoColuna, "0");
+        Cursor cursor = findFilterByEq(filtros, "name ASC");
 
         // Pega o primeiro elemento
         cursor.moveToFirst();
@@ -235,6 +247,9 @@ public class PublisherDAO extends GenericDAO<Publisher> {
                     break;
                 case CongReport.REGULAR:
                     query = Util.parseInputStreamToString(context.getAssets().open("find_only_regular.sql"));
+                    break;
+                case CongReport.SPECIAL:
+                    query = Util.parseInputStreamToString(context.getAssets().open("find_only_regular_special.sql"));
                     break;
             }
         } catch (IOException e) {
@@ -496,6 +511,11 @@ public class PublisherDAO extends GenericDAO<Publisher> {
         }
         try {
             values.put("contact_address2", publisher.getContactAddress2());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            values.put("changed_congregation", publisher.isChangedCongregation());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -765,6 +785,11 @@ public class PublisherDAO extends GenericDAO<Publisher> {
                 publisher.setContactAddress2(
                         cursor.getString(cursor.getColumnIndex("contact_address2"))
                 );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                publisher.setChangedCongregation(cursor.getInt(cursor.getColumnIndex("changed_congregation")) == 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }

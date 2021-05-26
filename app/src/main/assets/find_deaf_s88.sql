@@ -2,7 +2,7 @@ SELECT
 	month,
 	COUNT(*) AS number_meeeting,
 	SUM(amount_deaf) total,
-	ROUND(SUM(amount_total)*1.0/COUNT(*), 2) AS average
+	ROUND(SUM(amount_deaf)*1.0/COUNT(*), 2) AS average
 	
 FROM assistance
 

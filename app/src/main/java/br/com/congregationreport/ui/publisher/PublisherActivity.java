@@ -598,7 +598,7 @@ public class PublisherActivity extends AppCompatActivity {
                     }
 
                     // End Page
-                    String pageEnd = UtilHtml.getPublisherPageEnd(numberPage + "/" + totalPage);
+                    String pageEnd = UtilHtml.getPageEnd(numberPage + "/" + totalPage);
                     page = page + pageEnd;
 
                     // Add page to pages
