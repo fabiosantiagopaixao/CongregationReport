@@ -21,7 +21,6 @@ INNER JOIN publisher ON publisher.id = report.id_publisher
 WHERE 
 	report.month = '$P{MONTH}'
 	AND report.year = $P{YEAR}
-	AND report.hours > 0
-	OR report.preaching_fifteen_min_less = 1
+	AND (report.hours > 0 OR report.preaching_fifteen_min_less = 1)
 
 ORDER BY publisher.name ASC

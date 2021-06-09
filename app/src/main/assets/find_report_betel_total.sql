@@ -16,11 +16,13 @@ SELECT
 	report.notes
 	
 FROM report
+INNER JOIN publisher ON publisher.id = report.id_publisher
 
 WHERE 
 	month = '$P{MONTH}'
 	AND report.year = $P{YEAR}
-	AND report.hours > 0
-	OR report.preaching_fifteen_min_less = 1
+	AND (report.hours > 0 OR report.preaching_fifteen_min_less = 1)
+	AND publisher.special_pioneer = 0
+	AND publisher.missionary = 0
 
 ORDER BY report.id ASC

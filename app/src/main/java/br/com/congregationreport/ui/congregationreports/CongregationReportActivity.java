@@ -1336,7 +1336,7 @@ public class CongregationReportActivity extends AppCompatActivity {
                                     true)
                     );
                     TextView txtAverage = this.createTextView(
-                            report.getAssistanceAverage() == 0 ? ""
+                            report.getAssistanceAverage() == 0 ? "0"
                                     : UtilFormatte.getFormate(report.getAssistanceAverage()),
                             false,
                             view.getResources().getColor(R.color.colorGrayDark),

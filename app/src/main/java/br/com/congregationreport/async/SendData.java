@@ -79,31 +79,6 @@ public class SendData extends BaseTask {
     @Override
     public Object callInBackground() throws Exception {
         try {
-            // Save local
-            String id;
-            switch (this.data.getString("model")) {
-                case "report":
-                    this.reportDAO = new ReportDAO(this.context);
-                    id = this.saveReport(Report.convertJson(this.data.getJSONObject("object")));
-                    this.data.getJSONObject("object").put("id", id);
-                    break;
-                case "assistance":
-                    this.assistanceDAO = new AssistanceDAO(this.context);
-                    id = this.saveAssistance(Assistance.convertJson(this.data.getJSONObject("object")));
-                    this.data.getJSONObject("object").put("id", id);
-                    break;
-                case "publisher":
-                    if (this.type == UtilConstants.CREATE) {
-                        // TODO: Implements function
-                    }
-                    if (this.type == UtilConstants.UPDATE) {
-                        this.assistanceDAO = new AssistanceDAO(this.context);
-                        id = this.updatePublisher(Publisher.convertJson(this.data.getJSONObject("object")));
-                        this.data.getJSONObject("object").put("id", id);
-                    }
-                    break;
-            }
-
             HttpRequestUtil httpRequest = new HttpRequestUtil(
                     this.activity,
                     this.url,
@@ -115,6 +90,32 @@ public class SendData extends BaseTask {
 
             if (httpRequest.getResultCode() == 200) {
                 JSONObject jsonData = new JSONObject(httpRequest.getResult());
+
+                // Save local
+                String id;
+                switch (this.data.getString("model")) {
+                    case "report":
+                        this.reportDAO = new ReportDAO(this.context);
+                        id = this.saveReport(Report.convertJson(this.data.getJSONObject("object")));
+                        this.data.getJSONObject("object").put("id", id);
+                        break;
+                    case "assistance":
+                        this.assistanceDAO = new AssistanceDAO(this.context);
+                        id = this.saveAssistance(Assistance.convertJson(this.data.getJSONObject("object")));
+                        this.data.getJSONObject("object").put("id", id);
+                        break;
+                    case "publisher":
+                        if (this.type == UtilConstants.CREATE) {
+                            // TODO: Implements function
+                        }
+                        if (this.type == UtilConstants.UPDATE) {
+                            this.assistanceDAO = new AssistanceDAO(this.context);
+                            id = this.updatePublisher(Publisher.convertJson(this.data.getJSONObject("object")));
+                            this.data.getJSONObject("object").put("id", id);
+                        }
+                        break;
+                }
+
                 return jsonData.getInt("status");
             }
 
