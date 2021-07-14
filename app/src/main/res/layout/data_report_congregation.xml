@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/colorWhite"
+    android:layout_margin="10dp">
+
+
+    <LinearLayout
+        android:id="@+id/ll1Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deaf_school"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtDeafSchool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll1Linha"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deaf_baptism"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtDeafBaptism"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll3Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll2Linha"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deaf_no_baptism"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtDeafNoBaptism"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll4Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll3Linha"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="@string/deaf_regular_pioneer"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtDeafRegularPioneer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll5Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll4Linha"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qtd_publishers"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtQtdPublishers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"
+            android:inputType="number" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll6Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll5Linha"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/publishers_baptism"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtPublishersBaptism"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll7Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll6Linha"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/publishers_no_baptism"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtQtdNoPublishers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll8Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll7Linha"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_regular_pioneer"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtTotalRegularPioneer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"
+            android:inputType="number" />
+    </LinearLayout>
+
+</RelativeLayout>

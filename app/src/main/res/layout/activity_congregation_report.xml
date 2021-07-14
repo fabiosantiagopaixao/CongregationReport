@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.congregationreports.CongregationReportActivity">
+
+
+    <HorizontalScrollView
+        android:id="@+id/scrOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/rgOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:visibility="visible">
+
+            <RadioButton
+                android:id="@+id/rbBetel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:orientation="horizontal"
+                android:text="@string/label_betel"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/rbS21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/label_s21"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/rbS88"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/label_s88"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/rbSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/summary_congregation"
+                android:textSize="20dp" />
+        </RadioGroup>
+    </HorizontalScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rlFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrOptions"
+        android:layout_margin="10dp"
+        android:background="@drawable/my_custom_background">
+
+        <TextView
+            android:id="@+id/txtFiltro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="@string/label_filter"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="18dp"
+            android:textStyle="normal|bold" />
+
+        <LinearLayout
+            android:id="@+id/llSpinners"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFiltro"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:visibility="visible">
+
+            <Spinner
+                android:id="@+id/spYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10sp"></Spinner>
+
+            <Spinner
+                android:id="@+id/spMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="left"
+                android:visibility="gone"
+                android:padding="10sp"></Spinner>
+
+            <Spinner
+                android:id="@+id/spPublisher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10sp"
+                android:visibility="gone"></Spinner>
+
+        </LinearLayout>
+
+
+        <HorizontalScrollView
+            android:id="@+id/hsvOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llSpinners">
+
+            <RadioGroup
+                android:id="@+id/rgOptionsGroupS21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/rbAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:orientation="horizontal"
+                    android:text="@string/label_all" />
+
+
+                <RadioButton
+                    android:id="@+id/rbPublishers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/publishers" />
+
+                <RadioButton
+                    android:id="@+id/rdbAuxiliary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auxiliary_pioneers" />
+
+                <RadioButton
+                    android:id="@+id/rdbRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_regular_pioneer" />
+
+                <RadioButton
+                    android:id="@+id/rdbSpecial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_group_special" />
+
+                <RadioButton
+                    android:id="@+id/rdbDeaf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_deaf" />
+
+            </RadioGroup>
+
+        </HorizontalScrollView>
+
+
+        <RadioGroup
+            android:id="@+id/rgOptionsGroupS88"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hsvOptions"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rbTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:orientation="horizontal"
+                android:text="@string/label_total" />
+
+
+            <RadioButton
+                android:id="@+id/rbDeaf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/deafs" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/llChecks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rgOptionsGroupS88"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:visibility="visible">
+
+
+            <CheckBox
+                android:id="@+id/ckbATotalMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_total_month"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtSubTitle"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/rlFilter"
+        android:textSize="15dp"
+        android:visibility="gone"
+        android:textColor="@color/colorRed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtSubTitle"
+        android:orientation="vertical"
+        android:paddingBottom="30dp">
+
+
+        <ScrollView
+            android:id="@+id/rlData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llInfoReportS21"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txtInfoLabel21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/number_reports"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtInfoS21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorGrayDark"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+
+    <include layout="@layout/loading" />
+</RelativeLayout>

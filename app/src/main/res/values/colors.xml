@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Colors Palette -->
     <color name="colorPrimary">#335387</color>
+    <color name="colorAccent">#FC533A</color>
+    <color name="colorAccentLigth">#F89D90</color>
+    <color name="colorBlue">#2175FC</color>
+    <color name="colorLigthGreen">#BDFC08</color>
+    <color name="colorGreen">#86B00E</color>
+
+
+    <!-- Others Colors -->
     <color name="colorPrimaryDark">#062556</color>
-    <color name="colorAccent">#6596e5</color>
-    <color name="buttonDefault">#99111111</color>
+    <color name="colorGrayDark">#1e1d1d</color>
+    <color name="colorLoading">#AD1E1D1D</color>
+    <color name="colorGray">#99CFCACA</color>
+    <color name="colorGrayAccent">#908d8e</color>
+    <color name="colorBlack">#000000</color>
+    <color name="transparente">#00000000</color>
+    <color name="colorOrange">#F3A86E</color>
+    <color name="colorPink">#F884AC</color>
+    <color name="colorYellow">#EDF883</color>
+    <color name="colorRed">#E64040</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+
+    <color name="colorWhitet">#FFEAEA</color>
 </resources>

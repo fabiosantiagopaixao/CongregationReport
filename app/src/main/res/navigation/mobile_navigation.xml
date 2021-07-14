@@ -7,25 +7,15 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.fabio.congregationreport.ui.home.HomeFragment"
+        android:name="br.com.congregationreport.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_user"
-        android:name="com.fabio.congregationreport.ui.home.HomeFragment"
-        android:label="@string/menu_user"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
         android:id="@+id/nav_group"
-        android:name="com.fabio.congregationreport.ui.gallery.GalleryFragment"
+        android:name="br.com.congregationreport.ui.group.GroupFragment"
         android:label="@string/menu_group"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_simple" />
 
-    <fragment
-        android:id="@+id/nav_publishers"
-        android:name="com.fabio.congregationreport.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_publishers"
-        tools:layout="@layout/fragment_slideshow" />
+
 </navigation>

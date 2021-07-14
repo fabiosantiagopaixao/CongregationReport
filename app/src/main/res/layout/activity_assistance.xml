@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.assistance.AssistanceActivity">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textSize="28dp"
+        android:textStyle="normal|bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/your_assistance"/>
+
+    <LinearLayout
+        android:id="@+id/llSpinner"
+        android:layout_below="@+id/txtTitle"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/spYear"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:padding="10sp"
+            android:layout_height="wrap_content">
+        </Spinner>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/txtSubTitle"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/llSpinner"
+        android:textSize="15dp"
+        android:textColor="@color/colorRed"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"/>
+
+    <ExpandableListView
+        android:id="@+id/lvData"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/txtSubTitle"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/llFooter"
+        android:layout_height="match_parent" />
+
+
+    <RelativeLayout
+        android:id="@+id/llFooter"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:padding="10sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtFooterTitle"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorAccent"
+            android:text="@string/your_total"/>
+
+        <LinearLayout
+            android:id="@+id/ll1LinhaFooter"
+            android:layout_below="@+id/txtFooterTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/amount_deaf"
+                android:textColor="@color/colorWhite"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/txtAmountDeafYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorRed"
+                android:layout_marginLeft="5dp"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll2LinhaFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll1LinhaFooter"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/amount_total"
+                android:textColor="@color/colorWhite"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/txtAmountTotalYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorRed"
+                android:gravity="end"
+                android:inputType="number" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

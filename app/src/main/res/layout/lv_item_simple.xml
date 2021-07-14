@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="10sp"
+    android:paddingTop="10sp"
+    android:paddingBottom="10sp">
+
+
+    <TextView
+        android:id="@+id/txtId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="1"
+        android:textSize="25sp"
+        android:textStyle="normal|bold" />
+    <LinearLayout
+        android:layout_width="2dp"
+        android:background="@color/colorGrayDark"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="3sp"
+        android:layout_marginRight="3sp"
+        />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Usuário Fábio (ADM)"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
+</LinearLayout>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp">
+
+
+    <LinearLayout
+        android:id="@+id/ll1Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/publications"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtPublications"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ll1Linha"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/videos"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtVideos"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll3Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ll2Linha"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/horas"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll4Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ll3Linha"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/revisited"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtRevisited"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll5Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ll4Linha"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/studies"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtCourses"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll6Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ll5Linha"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/credit"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtCredit"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llAuxiliaryPioneer"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ll6Linha"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:id="@+id/txtAuxiliaryPioneer"
+            android:textColor="@color/colorGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precursor auxiliar de 30 HORAS en este mes"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llPreachingFifteenMinLess"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/llAuxiliaryPioneer"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:id="@+id/txtPreaching"
+            android:textColor="@color/colorRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/you_preaching_fifteen_min_less"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll8Linha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/llPreachingFifteenMinLess"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notes"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="end"/>
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</RelativeLayout>

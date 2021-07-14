@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:id="@+id/llTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:text="Informe de DIDICIEMBRE"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30dp"
+                android:textStyle="normal|bold" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlAuxiliaryPioneer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llTitle"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/llAux"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/ckbAuxiliaryPioneer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auxiliary_pioneer"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRad"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llAux"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/rdbAuxiliaryType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/thirtyHours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/thirty_hours">
+
+                    </RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/fiftyHours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fifty_hours">
+
+                    </RadioButton>
+                </RadioGroup>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:layout_below="@+id/rlAuxiliaryPioneer"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtPublications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/publications"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll1"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtVideos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/videos"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll2"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/horas"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll4"
+            android:layout_width="match_parent"
+            android:paddingBottom="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll3"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtRevisits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/revisited"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll4"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtStudies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cursos_biblicos"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll5"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtCredit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/credit"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll6"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/notes"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:typeface="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll7"
+            android:layout_marginTop="50dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnPreachingFifteenMinLess"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/preaching_fifteen_min_less" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include layout="@layout/loading" />
+</RelativeLayout>
