@@ -79,6 +79,8 @@ public class SendData extends BaseTask {
     @Override
     public Object callInBackground() throws Exception {
         try {
+            Integer id = this.saveLocally();
+
             HttpRequestUtil httpRequest = new HttpRequestUtil(
                     this.activity,
                     this.url,
@@ -88,41 +90,63 @@ public class SendData extends BaseTask {
                     true
             );
 
-            if (httpRequest.getResultCode() == 200) {
-                JSONObject jsonData = new JSONObject(httpRequest.getResult());
-
-                // Save local
-                String id;
-                switch (this.data.getString("model")) {
-                    case "report":
-                        this.reportDAO = new ReportDAO(this.context);
-                        id = this.saveReport(Report.convertJson(this.data.getJSONObject("object")));
-                        this.data.getJSONObject("object").put("id", id);
-                        break;
-                    case "assistance":
-                        this.assistanceDAO = new AssistanceDAO(this.context);
-                        id = this.saveAssistance(Assistance.convertJson(this.data.getJSONObject("object")));
-                        this.data.getJSONObject("object").put("id", id);
-                        break;
-                    case "publisher":
-                        if (this.type == UtilConstants.CREATE) {
-                            // TODO: Implements function
-                        }
-                        if (this.type == UtilConstants.UPDATE) {
-                            this.assistanceDAO = new AssistanceDAO(this.context);
-                            id = this.updatePublisher(Publisher.convertJson(this.data.getJSONObject("object")));
-                            this.data.getJSONObject("object").put("id", id);
-                        }
-                        break;
-                }
-
-                return jsonData.getInt("status");
+            if (httpRequest.getResultCode() != 200) {
+                this.deleteLocally(id);
             }
-
-
             return httpRequest.getResultCode();
         } catch (Exception e) {
             return 401;
+        }
+    }
+
+    private Integer saveLocally() {
+        String id = null;
+        try {
+            switch (this.data.getString("model")) {
+                case "report":
+                    this.reportDAO = new ReportDAO(this.context);
+                    id = this.saveReport(Report.convertJson(this.data.getJSONObject("object")));
+                    this.data.getJSONObject("object").put("id", id);
+                    break;
+                case "assistance":
+                    this.assistanceDAO = new AssistanceDAO(this.context);
+                    id = this.saveAssistance(Assistance.convertJson(this.data.getJSONObject("object")));
+                    this.data.getJSONObject("object").put("id", id);
+                    break;
+                case "publisher":
+                    this.publisherDAO = new PublisherDAO(this.context);
+                    id = this.updatePublisher(Publisher.convertJson(this.data.getJSONObject("object")));
+                    this.data.getJSONObject("object").put("id", id);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id == null ? 0 : Integer.parseInt(id);
+    }
+
+    private void deleteLocally(Integer id) {
+        try {
+            try {
+                switch (this.data.getString("model")) {
+                    case "report":
+                        this.reportDAO = new ReportDAO(this.context);
+                        this.reportDAO.delete(id);
+                        break;
+                    case "assistance":
+                        this.assistanceDAO = new AssistanceDAO(this.context);
+                        this.assistanceDAO.delete(id);
+                        break;
+                    case "publisher":
+                        this.publisherDAO = new PublisherDAO(this.context);
+                        this.publisherDAO.delete(id);
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
