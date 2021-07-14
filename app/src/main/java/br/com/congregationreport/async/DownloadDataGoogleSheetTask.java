@@ -170,6 +170,7 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
 
     private boolean createDataBase() {
         try {
+            this.cleanDataBase();
             JSONObject jsonData = new JSONObject(this.json);
 
             // Pegar data da alteração da planilha
@@ -245,6 +246,16 @@ public class DownloadDataGoogleSheetTask extends BaseTask {
             return false;
         }
         return true;
+    }
+
+    private void cleanDataBase() {
+        try {
+            this.publisherDAO.deleteAll();
+            this.reportDAO.deleteAll();
+            this.assistanceDAO.deleteAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean addDataSetting(JSONArray jsonArray) {
